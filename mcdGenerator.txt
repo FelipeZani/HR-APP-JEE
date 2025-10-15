@@ -1,0 +1,52 @@
+
+
+Table Employee{
+employeeId int [pk]
+name String
+lastname String
+departementId int [ref : < Departement.departmentId]
+postId int [ref: < Post.postId]
+rank  String
+password String
+}
+Table Project{
+projectId int [pk]
+label String
+status String
+}
+
+Table Role{
+roleId int [pk]
+label String
+permissions String
+}
+
+Table Departement{
+departmentId int [pk]
+name String
+}
+
+Table PayStub{
+payStubId int [pk ]
+total money
+creationDate date
+date date
+employeeId int [ref: < Employee.employeeId]
+}
+
+Table HaveAssignedProject{
+employeeId int [ref: < Employee.employeeId]
+projectId int [ref: < Project.projectId]
+assignementDate date
+}
+
+Table HaveAssociatedRole{
+matricule int [ref: < Employee.employeeId]
+id_role int [ref: < Role.roleId]
+}
+
+Table Post{
+postId int [pk ]
+label String
+wage money
+}
