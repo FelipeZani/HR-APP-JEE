@@ -10,5 +10,6 @@
 build/
 resources
 test/
+setupBDD
 
 !gradle-wrapper.jar
