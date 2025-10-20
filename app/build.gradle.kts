@@ -23,6 +23,11 @@ dependencies {
 
     // This dependency is used by the application.
     implementation(libs.guava)
+    implementation("jakarta.platform:jakarta.jakartaee-api:11.0.0")
+    implementation ("org.mariadb.jdbc:mariadb-java-client:3.4.1")
+    implementation("org.hibernate:hibernate-core:6.6.1.Final")
+    implementation("jakarta.json:jakarta.json-api:2.1.3")
+    implementation("org.eclipse:yasson:3.0.4")
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
