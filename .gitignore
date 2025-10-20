@@ -1,0 +1,14 @@
+.gradle
+.vscode
+.project
+
+#packages files
+*.class
+*.jar
+*.war
+#folders
+build/
+resources
+test/
+
+!gradle-wrapper.jar
