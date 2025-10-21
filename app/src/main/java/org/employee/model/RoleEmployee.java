@@ -18,6 +18,6 @@ public class RoleEmployee {
     
     private Set<String> permissions;
 
-    @ManyToMany(mappedBy = "projects")
+    @ManyToMany(mappedBy = "RoleEmployee")
     private Set<Employee> employees = new HashSet<>();
 }

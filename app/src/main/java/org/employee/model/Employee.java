@@ -10,14 +10,18 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 import org.department.model.Departement;
+import org.project.model.Project;
 
 @Entity
-public class Employee {
+public class Employee implements Serializable {
 
     @Column(name="name", updatable = true)
     private String name;
@@ -34,7 +38,8 @@ public class Employee {
     @JoinColumn(name = "departementId")
     private Departement departement;
 
-    @ManyToOne
+
+    @OneToMany
     @JoinColumn(name = "postId")
     private Post post;
 
@@ -45,6 +50,15 @@ public class Employee {
     )
     private Set<RoleEmployee> rolesEmployee = new HashSet<>();
     
-
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+        joinColumns ={@JoinColumn(name = "employeeId")},
+        inverseJoinColumns = {@JoinColumn(name = "projectId")}
+    )
+    private Set<Project> projects = new HashSet<Project>();
     
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "accountId", referencedColumnName = "accountId")
+    private Account account;    
 }
