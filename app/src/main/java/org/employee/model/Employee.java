@@ -17,7 +17,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.department.model.Departement;
+import org.department.model.Department;
 import org.project.model.Project;
 
 @Entity
@@ -34,31 +34,31 @@ public class Employee implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int employeeId; 
     
-    @ManyToOne
-    @JoinColumn(name = "departementId")
-    private Departement departement;
+    // @ManyToOne
+    // @JoinColumn(name = "departementId")
+    // private Department departement;
 
 
-    @OneToMany
-    @JoinColumn(name = "postId")
-    private Post post;
+    // @OneToMany
+    // @JoinColumn(name = "postId")
+    // private Post post;
 
-    @ManyToMany(cascade =  CascadeType.ALL )
-    @JoinTable(
-        joinColumns = { @JoinColumn(name = "employeeId") }, 
-        inverseJoinColumns = { @JoinColumn(name = "roleEmployeeId") }
-    )
-    private Set<RoleEmployee> rolesEmployee = new HashSet<>();
+    // @ManyToMany(cascade =  CascadeType.ALL )
+    // @JoinTable(
+    //     joinColumns = { @JoinColumn(name = "employeeId") }, 
+    //     inverseJoinColumns = { @JoinColumn(name = "roleEmployeeId") }
+    // )
+    // private Set<RoleEmployee> rolesEmployee = new HashSet<>();
     
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-        joinColumns ={@JoinColumn(name = "employeeId")},
-        inverseJoinColumns = {@JoinColumn(name = "projectId")}
-    )
-    private Set<Project> projects = new HashSet<Project>();
+    // @ManyToMany(cascade = CascadeType.ALL)
+    // @JoinTable(
+    //     joinColumns ={@JoinColumn(name = "employeeId")},
+    //     inverseJoinColumns = {@JoinColumn(name = "projectId")}
+    // )
+    // private Set<Project> projects = new HashSet<Project>();
     
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "accountId", referencedColumnName = "accountId")
-    private Account account;    
+    // @OneToOne(cascade = CascadeType.ALL)
+    // @JoinColumn(name = "accountId", referencedColumnName = "accountId")
+    // private Account account;    
 }

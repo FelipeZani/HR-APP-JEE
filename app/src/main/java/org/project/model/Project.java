@@ -6,12 +6,14 @@ import java.util.Set;
 import org.employee.model.Employee;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
+@Entity
 @Table(name = "Projects")
 public class Project {
 
@@ -25,6 +27,6 @@ public class Project {
     @Column(updatable = true)
     private String deadLine;
 
-    @ManyToMany(mappedBy = "Project")
-    private Set<Employee> employees = new HashSet<Employee>();
+    // @ManyToMany(mappedBy = "Project")
+    // private Set<Employee> employees = new HashSet<Employee>();
 }
