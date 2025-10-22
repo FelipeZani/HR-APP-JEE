@@ -29,17 +29,13 @@ public class RoleEmployeeDAO extends HttpServlet{
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         RoleEmployee myRe = new RoleEmployee();
+        myRe.setLabel("toto");
         addRoleEmployee(myRe);
         PrintWriter out = resp.getWriter();
         out.write("Added RoleEmployee to DB");
 
     }
 
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-        
-
-        
-
-    }
+ 
     
 }

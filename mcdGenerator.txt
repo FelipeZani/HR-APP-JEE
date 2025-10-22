@@ -7,11 +7,19 @@ postId int [ref: < Post.postId]
 rank  String
 }
 
-Table Project{
-projectId int [pk]
-label String
-status String
+Table Departement {
+  departmentId int [pk]
+  name String
+  managerId int [ref: - Employee.employeeId] // <-- new foreign key
 }
+
+Table Project {
+  projectId int [pk]
+  label String
+  status String
+  managerId int [ref: - Employee.employeeId] // <-- new foreign key
+}
+
 
 Table RoleEmployee{
 roleId int [pk]
@@ -19,10 +27,7 @@ label String
 permissions String
 }
 
-Table Departement{
-departmentId int [pk]
-name String
-}
+
 
 Table PayStub{
 payStubId int [pk ]

@@ -5,12 +5,15 @@ import java.util.Set;
 
 import org.employee.model.Employee;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -27,6 +30,12 @@ public class Project {
     @Column(updatable = true)
     private String deadLine;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "managerId", referencedColumnName = "employeeId")
+    private Employee manager;
+
+    
     // @ManyToMany(mappedBy = "Project")
     // private Set<Employee> employees = new HashSet<Employee>();
+
 }
