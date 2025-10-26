@@ -17,8 +17,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 
-@WebServlet("/addPost")
-public class PostDAO extends HttpServlet {
+public class PostDAO {
 
 
 
@@ -33,15 +32,5 @@ public class PostDAO extends HttpServlet {
 
     }
 
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Post myPost = new Post();
-        myPost.setLabel("test");
-        addPost(myPost);
-
-        PrintWriter out = resp.getWriter();
-        out.write("Added Post to DB");
-
-    }
     
 }

@@ -13,11 +13,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "Projects")
+@Table(name = "Project")
 public class Project {
 
     @Id
@@ -35,7 +36,67 @@ public class Project {
     private Employee manager;
 
     
-    // @ManyToMany(mappedBy = "Project")
-    // private Set<Employee> employees = new HashSet<Employee>();
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
+    private Set<EmployeeProject> employeeProjects = new HashSet<>();
+
+
+    public int getProjectId() {
+        return projectId;
+    }
+
+
+    public void setProjectId(int projectId) {
+        this.projectId = projectId;
+    }
+
+
+    public String getLabel() {
+        return label;
+    }
+
+
+    public void setLabel(String label) {
+        this.label = label;
+    }
+
+
+    public String getStatus() {
+        return status;
+    }
+
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+
+    public String getDeadLine() {
+        return deadLine;
+    }
+
+
+    public void setDeadLine(String deadLine) {
+        this.deadLine = deadLine;
+    }
+
+
+    public Employee getManager() {
+        return manager;
+    }
+
+
+    public void setManager(Employee manager) {
+        this.manager = manager;
+    }
+
+
+    public Set<EmployeeProject> getEmployees() {
+        return employeeProjects;
+    }
+
+
+    public void setEmployees(Set<EmployeeProject> employees) {
+        this.employeeProjects = employees;
+    }
 
 }

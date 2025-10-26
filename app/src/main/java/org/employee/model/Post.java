@@ -17,7 +17,7 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.AUTO)
     int postId;
     String label;
-    float money;
+    float wage;
 
     @ManyToOne
     @JoinColumn(name="employeeId")
@@ -35,11 +35,17 @@ public class Post {
     public void setLabel(String label) {
         this.label = label;
     }
-    public float getMoney() {
-        return money;
+    public float getWage() {
+        return wage;
     }
-    public void setMoney(float money) {
-        this.money = money;
+    public void setWage(float money) {
+        this.wage = money;
+    }
+    public Employee getEmployee() {
+        return employee;
+    }
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
     
 
