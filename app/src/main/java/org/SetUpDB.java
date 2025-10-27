@@ -32,6 +32,9 @@ public class SetUpDB implements ServletContextListener  {
         Employee employee = new Employee();
         EmployeeDAO empDao = new EmployeeDAO();
 
+
+        if(empDao.isEmployeeTabEmpty()){
+
         employee.setName("Felipe");
         employee.setLastName("ZANI");
         employee.setRank("JUNIOR");
@@ -116,7 +119,7 @@ public class SetUpDB implements ServletContextListener  {
         employee.setEmployeeProjects(noCreativityForAnNewName);
         project.setEmployeeProjects(noCreativityForAnNewName);
         empDao.addEmployee(employee);
-
+}
     }
 
     
