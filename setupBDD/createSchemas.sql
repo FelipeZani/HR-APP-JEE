@@ -7,10 +7,10 @@ DROP TABLE IF EXISTS
     Project,
     RoleEmplpyee,
     Post,
-    Departement;
+    Department;
 
 
-CREATE TABLE Departement (
+CREATE TABLE Department (
     departmentId INT PRIMARY KEY,
     name VARCHAR(255)
 );
@@ -25,10 +25,10 @@ CREATE TABLE Employee (
     employeeId INT PRIMARY KEY,
     name VARCHAR(255),
     lastname VARCHAR(255),
-    departementId INT,
+    departmentId INT,
     postId INT,
     rank VARCHAR(255),
-    FOREIGN KEY (departementId) REFERENCES Departement(departmentId),
+    FOREIGN KEY (departmentId) REFERENCES Department(departmentId),
     FOREIGN KEY (postId) REFERENCES Post(postId)
 );
 

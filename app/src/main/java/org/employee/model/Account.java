@@ -23,7 +23,7 @@ public class Account implements Serializable{
     private String password;
 
     @Column(updatable =  true)
-    private boolean firstConnexion;
+    private Boolean firstConnexion;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "employeeId", referencedColumnName = "employeeId")

@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -22,6 +23,9 @@ public class PayStub {
     @Column(updatable=true)
     private float total;
 
+    @Column(updatable = true)
+    private float bonus;
+    
     @Column(updatable=true)
     private String creationDate;
     
@@ -29,9 +33,9 @@ public class PayStub {
     private String date;
 
 
-    @OneToMany
-    @JoinColumn(name = "employeeId")
-    private Set<Employee> employeeList = new HashSet<Employee>();
+    @ManyToOne
+    @JoinColumn(name="employeeId",referencedColumnName = "employeeId")
+    private Employee employee;
 
 
     public int getPayStubId() {
@@ -51,6 +55,16 @@ public class PayStub {
 
     public void setTotal(float total) {
         this.total = total;
+    }
+
+
+    public float getBonus() {
+        return bonus;
+    }
+
+
+    public void setBonus(float bonus) {
+        this.bonus = bonus;
     }
 
 
@@ -74,13 +88,14 @@ public class PayStub {
     }
 
 
-    public Set<Employee> getEmployeeList() {
-        return employeeList;
+    public Employee getEmployee() {
+        return employee;
     }
 
 
-    public void setEmployeeList(Set<Employee> employeeList) {
-        this.employeeList = employeeList;
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
+
     
 }

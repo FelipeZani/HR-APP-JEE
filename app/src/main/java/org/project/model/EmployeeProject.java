@@ -1,6 +1,7 @@
 package org.project.model;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import org.employee.model.Employee;
 
@@ -11,64 +12,59 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
-
-
-@Embeddable
-class EmployeeProjectId implements Serializable {  
-    @Column(name = "employeeId")
-    private Integer employeeId;
-
-    @Column(name = "projectId")
-    private Integer projectId;
-
-}
 
 @Entity
-public class EmployeeProject implements Serializable {
-    
+@Table(name = "EmployeeProject")
+public class EmployeeProject {
 
     @EmbeddedId
-    private EmployeeProjectId employeeProjectId;
+    private EmployeeProjectId id;
 
     @ManyToOne
-    @MapsId("employeeId")
+    @MapsId("employeeId") 
+    @JoinColumn(name = "employeeId")
     private Employee employee;
 
     @ManyToOne
     @MapsId("projectId")
+    @JoinColumn(name = "projectId")
     private Project project;
-    
 
-    private String affectationDate;
+    @Column(name = "assignmentDate")
+    private String assignmentDate;
 
+    public EmployeeProjectId getId() {
+        return id;
+    }
+
+    public void setId(EmployeeProjectId id) {
+        this.id = id;
+    }
 
     public Employee getEmployee() {
         return employee;
     }
 
-
     public void setEmployee(Employee employee) {
         this.employee = employee;
     }
-
 
     public Project getProject() {
         return project;
     }
 
-
     public void setProject(Project project) {
         this.project = project;
     }
 
-
-    public String getAffectationDate() {
-        return affectationDate;
+    public String getAssignmentDate() {
+        return assignmentDate;
     }
 
-
-    public void setAffectationDate(String affectationDate) {
-        this.affectationDate = affectationDate;
+    public void setAssignmentDate(String assignmentDate) {
+        this.assignmentDate = assignmentDate;
     }
 }

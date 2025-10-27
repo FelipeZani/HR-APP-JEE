@@ -1,6 +1,8 @@
 package org.department.model;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.employee.model.Account;
 import org.employee.model.Employee;
@@ -17,7 +19,7 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="Departement")
+@Table(name="Department")
 public class Department {
 
     @Id
@@ -27,22 +29,20 @@ public class Department {
     @Column(name = "name")
     private String name;
 
+    @OneToMany(mappedBy = "department")
+    Set<Employee> departmentEmployees = new HashSet<>();
 
 
-    @OneToMany(mappedBy =  "department")
-    private List<Employee> employeesList;
-    
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "employeeId", referencedColumnName = "employeeId")
-    private Employee employee;     
-     
+    @OneToOne
+    @JoinColumn(name = "managerEmployeeId", referencedColumnName = "employeeId")
+    private Employee managerEmployee;
 
-    public int getDepartementId() {
+    public int getDepartmentId() {
         return departmentId;
     }
 
-    public void setDepartementId(int departementId) {
-        this.departmentId = departementId;
+    public void setDepartmentId(int departmentId) {
+        this.departmentId = departmentId;
     }
 
     public String getName() {
@@ -53,21 +53,22 @@ public class Department {
         this.name = name;
     }
 
-    public List<Employee> getEmployeesList() {
-        return employeesList;
+    public Set<Employee> getDepartmentEmployees() {
+        return departmentEmployees;
     }
 
-    public void setEmployeesList(List<Employee> employeesList) {
-        this.employeesList = employeesList;
+    public void setDepartmentEmployees(Set<Employee> departmentEmployees) {
+        this.departmentEmployees = departmentEmployees;
     }
 
-    public Employee getEmployee() {
-        return employee;
+    public Employee getManagerEmployee() {
+        return managerEmployee;
     }
 
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
+    public void setManagerEmployee(Employee managerEmployee) {
+        this.managerEmployee = managerEmployee;
     }
+
 
 
    

@@ -18,7 +18,6 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "Project")
 public class Project {
 
     @Id
@@ -31,13 +30,13 @@ public class Project {
     @Column(updatable = true)
     private String deadLine;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "managerId", referencedColumnName = "employeeId")
-    private Employee manager;
+    @OneToOne
+    @JoinColumn(name = "projectManagerEmployeeId", referencedColumnName = "employeeId")
+    private Employee projectManagerEmployee;
 
-    
-    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "project")
     private Set<EmployeeProject> employeeProjects = new HashSet<>();
+
 
 
     public int getProjectId() {
@@ -80,23 +79,27 @@ public class Project {
     }
 
 
-    public Employee getManager() {
-        return manager;
-    }
-
-
-    public void setManager(Employee manager) {
-        this.manager = manager;
-    }
-
-
-    public Set<EmployeeProject> getEmployees() {
+    public Set<EmployeeProject> getEmployeeProjects() {
         return employeeProjects;
     }
 
 
-    public void setEmployees(Set<EmployeeProject> employees) {
-        this.employeeProjects = employees;
+    public void setEmployeeProjects(Set<EmployeeProject> employeeProjects) {
+        this.employeeProjects = employeeProjects;
     }
+
+
+    public Employee getProjectManagerEmployee() {
+        return projectManagerEmployee;
+    }
+
+
+    public void setProjectManagerEmployee(Employee projectManagerEmployee) {
+        this.projectManagerEmployee = projectManagerEmployee;
+    }
+
+
+
+
 
 }

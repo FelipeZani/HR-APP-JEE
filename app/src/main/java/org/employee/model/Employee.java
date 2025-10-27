@@ -28,138 +28,123 @@ import org.project.model.Project;
 @Entity
 public class Employee{
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int employeeId;
 
 
-
-    @Column(name="name", updatable = true)
+    @Column(name="name", updatable = true, nullable = false)
     private String name;
-    @Column(name="lastname", updatable = true)
+    @Column(name="lastname", updatable = true, nullable = false)
     private String lastName;
-    @Column(name="rank", updatable = true)
+    @Column(name="rank", updatable = true, nullable = false)
     private String rank;
-    @Column(name = "employmentDate" , updatable=false)
+    @Column(name = "employmentDate" , updatable=false, nullable = false)
     private String employementDate;
 
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int employeeId; 
-    
-    @ManyToOne
-    @JoinColumn(name = "departementId")
-    private Department departement;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "employee")
+    private Set<PayStub> payStubSet = new HashSet<PayStub>();
 
-
-    @OneToMany
-    @JoinColumn(name = "postId")
-    private List<Post> postsList;
-
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "accountId", referencedColumnName = "accountId")
-    private Account account;  
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "departmentId", referencedColumnName = "departmentId")
-    private Department department;   
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="payStubId")
-    private PayStub payStub;
+    @JoinColumn(name = "postId", referencedColumnName = "postId")
+    private Post post;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "departmentId", referencedColumnName="departmentId")
+    private Department department;
 
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
-    private Set<EmployeeProject> employeeProject = new HashSet<EmployeeProject>();
-    
-    // @ManyToMany(cascade =  CascadeType.ALL )
-    // @JoinTable(
-    //     joinColumns = { @JoinColumn(name = "employeeId") }, 
-    //     inverseJoinColumns = { @JoinColumn(name = "roleEmployeeId") }
-    // )
-    // private List<RoleEmployee> rolesEmployeeList;
-    
+    private Set<EmployeeProject> employeeProjects = new HashSet<>();
 
 
-    public int getemployeeId(){ return employeeId; }
+    @OneToOne(mappedBy = "employee",cascade = CascadeType.ALL)
+    private Account userAccount;
 
-    public String getName() {
-        return name;
-    }
+    @OneToOne(mappedBy = "managerEmployee",cascade = CascadeType.ALL)
+    private Department departmentManagered;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    @OneToOne(mappedBy = "projectManagerEmployee",cascade = CascadeType.ALL)
+    private Project projectManagered;
 
-    public String getLastName() {
-        return lastName;
-    }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getRank() {
-        return rank;
-    }
-
-    public void setRank(String rank) {
-        this.rank = rank;
-    }
-
-    public String getEmployementDate() {
-        return employementDate;
-    }
-
-    public void setEmployementDate(String employementDate) {
-        this.employementDate = employementDate;
-    }
 
     public int getEmployeeId() {
         return employeeId;
     }
-
     public void setEmployeeId(int employeeId) {
         this.employeeId = employeeId;
     }
-
-    public Department getDepartement() {
-        return departement;
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public String getLastName() {
+        return lastName;
+    }
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+    public String getRank() {
+        return rank;
+    }
+    public void setRank(String rank) {
+        this.rank = rank;
+    }
+    public String getEmployementDate() {
+        return employementDate;
+    }
+    public void setEmployementDate(String employementDate) {
+        this.employementDate = employementDate;
+    }
+    public Set<PayStub> getPayStubSet() {
+        return payStubSet;
+    }
+    public void setPayStubSet(Set<PayStub> payStubSet) {
+        this.payStubSet = payStubSet;
     }
 
-    public void setDepartement(Department departement) {
-        this.departement = departement;
+    public Account getUserAccount() {
+        return userAccount;
+    }
+    public void setUserAccount(Account userAccount) {
+        this.userAccount = userAccount;
+    }
+    public Post getPost() {
+        return post;
+    }
+    public void setPost(Post post) {
+        this.post = post;
+    }
+    public Department getDepartment() {
+        return department;
+    }
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+    public Department getDepartmentManagered() {
+        return departmentManagered;
+    }
+    public void setDepartmentManagered(Department departmentManagered) {
+        this.departmentManagered = departmentManagered;
+    }
+    public Set<EmployeeProject> getEmployeeProjects() {
+        return employeeProjects;
+    }
+    public void setEmployeeProjects(Set<EmployeeProject> employeeProjects) {
+        this.employeeProjects = employeeProjects;
+    }
+    public Project getProjectManagered() {
+        return projectManagered;
+    }
+    public void setProjectManagered(Project projectManagered) {
+        this.projectManagered = projectManagered;
     }
 
-    public List<Post> getPostsList() {
-        return postsList;
-    }
 
-    public void setPostsList(List<Post> postsList) {
-        this.postsList = postsList;
-    }
 
-    public Account getAccount() {
-        return account;
-    }
-
-    public void setAccount(Account account) {
-        this.account = account;
-    }
-
-    public PayStub getPayStub() {
-        return payStub;
-    }
-
-    public void setPayStub(PayStub payStub) {
-        this.payStub = payStub;
-    }
-
-    public Set<EmployeeProject> getProjectsSet() {
-        return employeeProject;
-    }
-
-    public void setProjectsSet(Set<EmployeeProject> employeeProject) {
-        this.employeeProject = employeeProject;
-    }
 
 }
