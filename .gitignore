@@ -6,9 +6,11 @@
 *.class
 *.jar
 *.war
+setupUser.sh
 #folders
 build/
 resources
 test/
+
 
 !gradle-wrapper.jar
