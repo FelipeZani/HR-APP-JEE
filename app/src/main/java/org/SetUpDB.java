@@ -35,92 +35,90 @@ public class SetUpDB implements ServletContextListener  {
 
         if(empDao.isEmployeeTabEmpty()){
 
-        employee.setName("Felipe");
-        employee.setLastName("ZANI");
-        employee.setRank("JUNIOR");
-        employee.setEmployementDate("03-05-2025");
-        
+            employee.setName("Felipe");
+            employee.setLastName("ZANI");
+            employee.setRank("JUNIOR");
+            employee.setEmployementDate("03-05-2025");
+            
 
-        PayStub payStub = new PayStub();
-        payStub.setDate("08-09-2005");
-        payStub.setCreationDate("08-09-2005");
-        payStub.setTotal(255f);
-        payStub.setBonus(0);
+            PayStub payStub = new PayStub();
+            payStub.setDate("08-09-2005");
+            payStub.setCreationDate("08-09-2005");
+            payStub.setTotal(255f);
+            payStub.setBonus(0);
 
-        payStub.setEmployee(employee);
-
-
-
-        Set<PayStub> paystubs = new HashSet<PayStub>();
-        
-        paystubs.add(payStub);
-        employee.setPayStubSet(paystubs);
-
-
-        Account userAccount = new Account();
-        userAccount.setUsername("felipe.zani");
-        userAccount.setPassword("superSecurePWD123");
-        userAccount.setFirstConnexion(true);
-        userAccount.setEmployee(employee);
-
-        employee.setUserAccount(userAccount);
-
-        Post post = new Post();
-        post.setLabel("Dev");
-        post.setWage(35f);
-        
-        Set<Employee> postTeam = new HashSet<>();
-        postTeam.add(employee);
-
-        post.setEmployeeSet(postTeam);
-
-        employee.setPost(post);
+            payStub.setEmployee(employee);
 
 
 
-
-        Department department = new Department();
-        department.setName("Research and Stuff");
-        Set<Employee> departmentTeam = new HashSet<>();
-        departmentTeam.add(employee);
-        department.setDepartmentEmployees(departmentTeam);
-        department.setManagerEmployee(employee);
-
-        employee.setDepartmentManagered(department);
-
-        employee.setDepartment(department);
-
-        Project project = new Project();
-        project.setLabel("AI Health Detection System");
-        project.setDeadLine("05-10-2013");
-        project.setStatus("ONGOING");
+            Set<PayStub> paystubs = new HashSet<PayStub>();
+            
+            paystubs.add(payStub);
+            employee.setPayStubSet(paystubs);
 
 
-        employee.setProjectManagered(project);
+            Account userAccount = new Account();
+            userAccount.setUsername("felipe.zani");
+            userAccount.setPassword("superSecurePWD123");
+            userAccount.setFirstConnexion(true);
+            userAccount.setEmployee(employee);
 
-        
-        
-        EmployeeProjectId epId = new EmployeeProjectId();
-        
-        epId.setEmployeeId(employee.getEmployeeId());
-        epId.setProjectId(project.getProjectId());
-        
+            employee.setUserAccount(userAccount);
 
-        EmployeeProject employeeProject = new EmployeeProject();
-        employeeProject.setId(epId);
-        employeeProject.setEmployee(employee);
-        employeeProject.setProject(project);
-        employeeProject.setAssignmentDate("01-02-2002");
+            Post post = new Post();
+            post.setLabel("Dev");
+            post.setWage(35f);
+            
+            Set<Employee> postTeam = new HashSet<>();
+            postTeam.add(employee);
+
+            post.setEmployeeSet(postTeam);
+
+            employee.setPost(post);
 
 
-        Set<EmployeeProject> noCreativityForAnNewName = new HashSet<EmployeeProject>();
-        noCreativityForAnNewName.add(employeeProject);
-        
-        employee.setEmployeeProjects(noCreativityForAnNewName);
-        project.setEmployeeProjects(noCreativityForAnNewName);
-        empDao.addEmployee(employee);
-}
-    }
 
-    
+
+            Department department = new Department();
+            department.setName("Research and Stuff");
+            Set<Employee> departmentTeam = new HashSet<>();
+            departmentTeam.add(employee);
+            department.setDepartmentEmployees(departmentTeam);
+            department.setManagerEmployee(employee);
+
+            employee.setDepartmentManagered(department);
+
+            employee.setDepartment(department);
+
+            Project project = new Project();
+            project.setLabel("AI Health Detection System");
+            project.setDeadLine("05-10-2013");
+            project.setStatus("ONGOING");
+
+
+            employee.setProjectManagered(project);
+
+            
+            
+            EmployeeProjectId epId = new EmployeeProjectId();
+            
+            epId.setEmployeeId(employee.getEmployeeId());
+            epId.setProjectId(project.getProjectId());
+            
+
+            EmployeeProject employeeProject = new EmployeeProject();
+            employeeProject.setId(epId);
+            employeeProject.setEmployee(employee);
+            employeeProject.setProject(project);
+            employeeProject.setAssignmentDate("01-02-2002");
+
+
+            Set<EmployeeProject> noCreativityForAnNewName = new HashSet<EmployeeProject>();
+            noCreativityForAnNewName.add(employeeProject);
+            
+            employee.setEmployeeProjects(noCreativityForAnNewName);
+            project.setEmployeeProjects(noCreativityForAnNewName);
+            empDao.addEmployee(employee);
+        }
+    } 
 }

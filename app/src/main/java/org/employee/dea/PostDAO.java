@@ -1,20 +1,13 @@
 package org.employee.dea;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+
+import java.util.List;
 
 import org.employee.model.Post;
 import org.hibernate.Session;
 import org.util.HibernateUtil;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+
 
 
 public class PostDAO {
@@ -29,6 +22,26 @@ public class PostDAO {
 
         session.close();
         
+
+    }
+    public List<Post> getPostList(){
+       try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            List<Post> postsList = session.createQuery("from Post",Post.class).list();
+
+            if(postsList.size()<= 0){
+                throw new Exception("Empty employee list at getPostList() function.");
+            }
+
+            return postsList;
+            
+       } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        
+       }
+
 
     }
 

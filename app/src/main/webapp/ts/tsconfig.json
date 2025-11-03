@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+        "target": "esnext",
+        "lib": ["dom","ES2024"],
+        "module": "commonjs",
+        "outDir": "./dist",
+        "rootDir": "./src",
+        "strict": true
+    },
+    "include": ["./src/**/*"],
+    "watchOptions": {
+        "watchFile": "useFsEvents"
+    }
+
+   
+    
+
+}

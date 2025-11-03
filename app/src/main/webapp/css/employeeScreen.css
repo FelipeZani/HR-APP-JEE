@@ -1,0 +1,30 @@
+
+
+#employees-table{
+    display: grid;
+    grid-template-columns: auto-fit;
+}
+.row{
+    display: grid;
+    grid-template-columns: repeat(5,1fr);
+    text-align: center;
+    
+}
+#tools-wrapper{
+    display: flex;
+    justify-content: flex-end;
+    
+} 
+.form-dialog{
+    display: flex;
+    flex-direction: column;
+    align-items:end;
+    row-gap: 20px;
+}
+#dialog-form-buttonWrapper{
+    align-self: center;
+}
+    
+.styled-dialog{
+    border: 1px solid black;
+}
