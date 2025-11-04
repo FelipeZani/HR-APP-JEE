@@ -26,7 +26,7 @@ public class GetDepartmentsListForDialog extends Action{
 
 
             for (Department department : departmentList) {
-                responseHTML+="<option value='"+department.getName()+"'>"+department.getName()+"</option>";
+                responseHTML+="<option value='department'>"+department.getName()+"</option>";
                 
             }
             response.getWriter().write(responseHTML);

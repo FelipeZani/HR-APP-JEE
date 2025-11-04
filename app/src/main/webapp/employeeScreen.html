@@ -22,13 +22,15 @@
     <main>
         <h1>Employees</h1>
         <div id="tools-wrapper" style="display: flex; justify-content: flex-end; ">
+
             <button id="searchemployee-opendialogbutton">SearchEmployee</button>
+
             <button id="newemployee-opendialogbutton">New Employee</button>
 
             <dialog class="styled-dialog" id="searchemployee-dialog">
 
-                <form action="" class="form-dialog" id="searchemployee-form">
-
+                <form class="form-dialog" id="searchemployee-form">
+                    <input type="hidden" name="action" value="searchemployee">
                     <label for="id">EmployeeId:
                         <input type="text" name="employeeid">
                     </label>
@@ -43,10 +45,15 @@
 
                     <select name="department" id="searchemployee-department-options"
                         hx-get="http://localhost:8080/app/departmentServlet?action=getdepartmentlist"
-                        hx-trigger="click from:#searchemployee-opendialogbutton" hx-swap="innerHTML"></select>
+                        hx-trigger="click from:#searchemployee-opendialogbutton" hx-swap="innerHTML">
+                    </select>
 
                     <div id="dialog-form-buttonWrapper">
-                        <input type="submit" value="submit" id="dialog-form-submitBtn">
+                        <input type="button" value="submit" id="dialog-form-submitBtn"
+                            hx-post="http://localhost:8080/app/employeeServlet"
+                            hx-swap="innerHTML"
+                            hx-target="#bodytable"
+                        >
 
                         <input type="button" value="close" class="dialog-form-closeButton"
                             id="searchemployee-closeButton">

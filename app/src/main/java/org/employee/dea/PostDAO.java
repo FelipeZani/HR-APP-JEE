@@ -30,7 +30,7 @@ public class PostDAO {
             session.beginTransaction();
             List<Post> postsList = session.createQuery("from Post",Post.class).list();
 
-            if(postsList.size()<= 0){
+            if( postsList.size() <= 0){
                 throw new Exception("Empty employee list at getPostList() function.");
             }
 
