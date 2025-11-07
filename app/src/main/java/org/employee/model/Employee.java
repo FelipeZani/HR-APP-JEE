@@ -30,11 +30,11 @@ public class Employee{
     @Column(name="name", updatable = true, nullable = false)
     private String name;
     @Column(name="lastname", updatable = true, nullable = false)
-    private String lastName;
+    private String lastname;
     @Column(name="rank", updatable = true, nullable = false)
     private String rank;
-    @Column(name = "employmentDate" , updatable=false, nullable = false)
-    private String employementDate;
+    @Column(name = "employmentdate" , updatable=false, nullable = false)
+    private String employementdate;
 
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "employee")
@@ -77,10 +77,10 @@ public class Employee{
         this.name = name;
     }
     public String getLastName() {
-        return lastName;
+        return lastname;
     }
     public void setLastName(String lastName) {
-        this.lastName = lastName;
+        this.lastname = lastName;
     }
     public String getRank() {
         return rank;
@@ -89,10 +89,10 @@ public class Employee{
         this.rank = rank;
     }
     public String getEmployementDate() {
-        return employementDate;
+        return employementdate;
     }
     public void setEmployementDate(String employementDate) {
-        this.employementDate = employementDate;
+        this.employementdate = employementDate;
     }
     public Set<PayStub> getPayStubSet() {
         return payStubSet;

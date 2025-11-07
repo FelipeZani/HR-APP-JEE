@@ -1,4 +1,3 @@
-"use strict";
 const openDialogButtonIds = Array.of("searchemployee", "newemployee");
 openDialogButtonIds.forEach((dialogId) => {
     const openDialogButton = document.getElementById(`${dialogId}-opendialogbutton`);
@@ -113,3 +112,4 @@ function removeEmployee(id) {
 window.modifyEmployee = modifyEmployee;
 ;
 window.removeEmployee = removeEmployee;
+export {};

@@ -7,7 +7,7 @@ import org.employee.model.Employee;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-public class SearchEmployee extends EmployeesAction {
+public class GetEmployeeByParameters extends EmployeesAction {
 
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {

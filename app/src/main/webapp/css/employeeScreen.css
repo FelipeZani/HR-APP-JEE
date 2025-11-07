@@ -1,4 +1,9 @@
 
+input:invalid{
+    border: 2px solid rgb(253, 61, 90);
+    background-color: rgb(255, 182, 193);
+}
+
 
 #employees-table{
     display: grid;

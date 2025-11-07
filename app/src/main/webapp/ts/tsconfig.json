@@ -2,7 +2,7 @@
     "compilerOptions": {
         "target": "esnext",
         "lib": ["dom","ES2024"],
-        "module": "commonjs",
+        "module": "esnext",
         "outDir": "./dist",
         "rootDir": "./src",
         "strict": true

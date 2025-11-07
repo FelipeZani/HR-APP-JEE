@@ -37,30 +37,33 @@ public class EmployeeDAO {
 
     }
 
-    public List<Employee> getEmployeeByParameters(String param1, String param2, String param3, String param4) {
+    public List<Employee> getEmployeeByParameters(String id, String name, String lastname, String department) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+
+
+            
 
             StringBuilder hib = new StringBuilder("from Employee e where 1=1");
             int countNullVariables = 0;
 
 
-            if (param1 != null && !param1.equals("")) {
-                hib.append(" and e.id = :param1");
+            if (id != null && !id.equals("")) {
+                hib.append(" and e.id = :id");
                 countNullVariables++;
             }
 
-            if (param2 != null && !param2.equals("")) {
-                hib.append(" and e.name = :param2");
+            if (name != null && !name.equals("")) {
+                hib.append(" and e.name = :name");
                 countNullVariables++;
             }
 
-            if (param3 != null && !param3.equals("")) {
-                hib.append(" and e.lastname = :param3");
+            if (lastname != null && !lastname.equals("")) {
+                hib.append(" and e.lastname = :lastname");
                 countNullVariables++;
             }
 
-            if (param4 != null && !param4.equals("")) {
-                hib.append(" and e.department = :param4");
+            if (department != null && !department.equals("")) {
+                hib.append(" and e.department = :department");
                 countNullVariables++;
             }
             if(countNullVariables == 0){
@@ -69,17 +72,17 @@ public class EmployeeDAO {
 
             Query<Employee> query = session.createQuery(hib.toString(), Employee.class);
 
-            if (param1 != null && !param1.equals(""))
-                query.setParameter("param1", param1);
+            if (id != null && !id.equals(""))
+                query.setParameter("id", id);
 
-            if (param2 != null && !param2.equals(""))
-                query.setParameter("param2", param2);
+            if (name != null && !name.equals(""))
+                query.setParameter("name", name);
 
-            if (param3 != null && !param3.equals(""))
-                query.setParameter("param3", param3);
+            if (lastname != null && !lastname.equals(""))
+                query.setParameter("lastname", lastname);
 
-            if (param4 != null &&  !param4.equals(""))
-                query.setParameter("param4", param4);
+            if (department != null &&  !department.equals(""))
+                query.setParameter("department", department);
 
             List<Employee> empList = query
                     .setMaxResults(20)

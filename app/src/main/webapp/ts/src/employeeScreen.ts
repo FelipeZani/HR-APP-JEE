@@ -1,12 +1,4 @@
-
-interface EmployeeDataType {
-    id: string,
-    name: string,
-    post: string,
-    department: string,
-    rank: string
-}
-
+import { EmployeeDataType } from "./types"
 
 interface DialogTypeEmployeeScreen {
     researchEmployee: string
