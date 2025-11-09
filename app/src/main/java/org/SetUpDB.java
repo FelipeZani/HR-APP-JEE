@@ -6,6 +6,7 @@ import java.util.Set;
 
 import org.department.dea.DepartmentDAO;
 import org.department.model.Department;
+import org.employee.dea.AccountDAO;
 import org.employee.dea.EmployeeDAO;
 import org.employee.dea.PostDAO;
 import org.employee.model.Account;
@@ -54,8 +55,8 @@ public class SetUpDB implements ServletContextListener {
             userAccount.setPassword("superSecurePWD123");
             userAccount.setFirstConnexion(true);
             userAccount.setEmployee(employee);
-
             employee.setUserAccount(userAccount);
+
 
             Post post = new Post();
             post.setLabel("Dev");
@@ -66,7 +67,6 @@ public class SetUpDB implements ServletContextListener {
             PostDAO pdao = new PostDAO();
             pdao.addPost(post);
 
-            //Here the user is dete
             Department department = new Department();
             department.setName("Research and Stuff");
             department.addEmployeeToDepartment(employee);

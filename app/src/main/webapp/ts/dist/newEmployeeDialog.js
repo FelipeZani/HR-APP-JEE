@@ -9,10 +9,10 @@ async function sendData() {
         console.log("Form not found");
         return;
     }
-    // if (!form.checkValidity()) {
-    //     console.log("Form is not valid");
-    //     return;
-    // }
+    if (!form.checkValidity()) {
+        console.log("Form is not valid");
+        return;
+    }
     const formData = new FormData(form);
     const newEmployee = {
         action: formData.get("action"),
@@ -33,7 +33,7 @@ async function sendData() {
                 },
                 body: newEmployeeURL.toString(),
             });
-            //console.log(await response.json()); //Add the response to the div in the 
+            console.log(await response.json());
         }
         else {
             console.error("Problem with formData");

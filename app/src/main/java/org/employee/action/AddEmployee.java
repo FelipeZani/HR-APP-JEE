@@ -1,5 +1,6 @@
 package org.employee.action;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Enumeration;
@@ -11,6 +12,9 @@ import org.employee.model.Account;
 import org.employee.model.Employee;
 import org.employee.model.Post;
 
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import jakarta.json.bind.JsonbBuilder;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -37,7 +41,7 @@ public class AddEmployee extends EmployeesAction {
     }
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         try {
 
@@ -61,7 +65,6 @@ public class AddEmployee extends EmployeesAction {
 
             Department department = DepartmentAction.getDao().getDepartementByName(departmentName);
 
-
             if (department == null) {
                 throw new NullPointerException("Department not found");
             }
@@ -84,7 +87,6 @@ public class AddEmployee extends EmployeesAction {
             employee.setLastName(nameLastName[1]);
             employee.setDepartment(department);
 
-            
             switch (rankName) {
                 case "junior":
                     employee.setRank(Rank.JUNIOR.toString());
@@ -108,9 +110,8 @@ public class AddEmployee extends EmployeesAction {
 
             newAccount.setEmployee(employee);
             newAccount.setFirstConnexion(true);
-            newAccount.setFirstPassword();
 
-            if (employeeList.isEmpty()) {
+            if (!employeeList.isEmpty()) {
 
                 newAccount.setUsername(
                         nameLastName[0].toLowerCase() + "." + nameLastName[1].toLowerCase() + employeeList.size());
@@ -121,10 +122,30 @@ public class AddEmployee extends EmployeesAction {
 
             }
 
+            employee.setUserAccount(newAccount);
+
+            department.addEmployeeToDepartment(employee);
+            employee.setDepartment(department);
+            post.addEmployee(employee);
+            employee.setPost(post);
+
             EmployeesAction.getDao().addEmployee(employee);
+
+
+            JsonObject jsonResponse = Json.createObjectBuilder()
+                    .add("id", employee.getEmployeeId())
+                    .add("name", employee.getName()+" "+employee.getLastName())
+                    .add("post", employee.getPost().getLabel())
+                    .add("department", employee.getDepartment().getName())
+                    .add("rank", employee.getRank())
+                    .add("username", employee.getUserAccount().getUsername())
+                    .add("password", employee.getUserAccount().getPassword())
+                    .build();
+            response.getWriter().write(jsonResponse.toString());
 
         } catch (Exception e) {
             e.printStackTrace();
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Failled to save user");
         }
 
     }

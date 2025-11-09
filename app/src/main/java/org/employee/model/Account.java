@@ -1,6 +1,7 @@
 package org.employee.model;
 
 import java.io.Serializable;
+import java.io.StringBufferInputStream;
 import java.nio.charset.Charset;
 import java.util.Random;
 
@@ -14,8 +15,11 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 
 @Entity
-public class Account implements Serializable{
+public class Account implements Serializable {
 
+    public Account (){
+        setFirstPassword();
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int accountId;
@@ -24,10 +28,10 @@ public class Account implements Serializable{
     @Column(updatable = true)
     private String password;
 
-    @Column(updatable =  true)
+    @Column(updatable = true)
     private Boolean firstConnexion;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "employeeId", referencedColumnName = "employeeId")
     private Employee employee;
 
@@ -71,15 +75,17 @@ public class Account implements Serializable{
         this.employee = employee;
     }
 
-    public void setFirstPassword() {
-        
-        byte[] array = new byte[7]; 
-        
-        new Random().nextBytes(array);
+    private void setFirstPassword() {
 
-        this.password = new String(array, Charset.forName("UTF-8"));
+        Random r = new Random();
+        StringBuilder pwd = new StringBuilder("");
+        String alphabet = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        for (int i = 0; i < 8; i++) {
+            pwd.append(alphabet.charAt(r.nextInt(alphabet.length())));
+        }
 
-        
-    }  
-    
+        this.password = pwd.toString();
+
+    }
+
 }

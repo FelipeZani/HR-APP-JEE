@@ -2,7 +2,6 @@ package org.employee.servlet;
 
 import java.io.IOException;
 import java.util.Enumeration;
-import java.util.NoSuchElementException;
 
 import org.employee.action.AddEmployee;
 import org.employee.action.GetAllEmployees;
