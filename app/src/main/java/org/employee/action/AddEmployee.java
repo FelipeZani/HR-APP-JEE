@@ -1,66 +1,127 @@
 package org.employee.action;
 
-import java.io.BufferedReader;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Enumeration;
 import java.util.List;
-import java.util.stream.Collectors;
 
+import org.department.action.DepartmentAction;
+import org.department.model.Department;
+import org.employee.model.Account;
 import org.employee.model.Employee;
+import org.employee.model.Post;
 
-import jakarta.json.bind.Jsonb;
-import jakarta.json.bind.JsonbBuilder;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-class EmployeePartial {
-
-    private String name;
-    private String post;
-    private String department;
-    private String string;
-
-    public EmployeePartial(String name, String lastname, String post, String department, String string) {
-        this.name = name;
-        this.post = post;
-        this.department = department;
-        this.string = string;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getPost() {
-        return post;
-    }
-
-    public String getDepartment() {
-        return department;
-    }
-
-    public String getString() {
-        return string;
-    }
-
-
-
-}
-
 public class AddEmployee extends EmployeesAction {
+    enum Rank {
+        JUNIOR,
+        MIDLEVEL,
+        SENIOR;
+
+        @Override
+        public String toString() {
+            switch (this.ordinal()) {
+                case 0:
+                    return "JUNIOR";
+                case 1:
+                    return "MIDLEVEL";
+                case 2:
+                    return "SENIOR";
+                default:
+                    return null;
+            }
+        }
+
+    }
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public void execute(HttpServletRequest request, HttpServletResponse response) {
 
         try {
-            
-            
-            String completeName = request.getParameter("name");
-            String [] nameLastName = completeName.split("\\s");
-            System.out.println(nameLastName[0]+" "+nameLastName[1]);
-            List<Employee> employee = EmployeesAction.dao.getEmployeeByParameters(null,
-                    nameLastName[0], nameLastName[1],null);
 
-            System.out.println("is it empty: "+employee.isEmpty());
+            Enumeration<String> requestParametersNames = request.getParameterNames();
+
+            while (requestParametersNames.hasMoreElements()) {
+                String parameter = requestParametersNames.nextElement();
+                if (request.getParameter(parameter) == null) {
+                    response.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED,
+                            "request parameter in addEmployee not found");
+                    throw new NullPointerException(parameter + " parameter not found");
+                }
+            }
+
+            String completeName = request.getParameter("name");
+            String departmentName = request.getParameter("department");
+            String postLabel = request.getParameter("post");
+            String rankName = request.getParameter("rank");
+
+            String[] nameLastName = completeName.split("\\s");
+
+            Department department = DepartmentAction.getDao().getDepartementByName(departmentName);
+
+
+            if (department == null) {
+                throw new NullPointerException("Department not found");
+            }
+
+            Post post = PostsAction.getDao().getPostByLabel(postLabel);
+
+            if (post == null) {
+                throw new NullPointerException("Post not found");
+            }
+
+            List<Employee> employeeList = EmployeesAction.dao.getEmployeeByParameters(
+                    null,
+                    nameLastName[0],
+                    nameLastName[1],
+                    null);
+
+            Employee employee = new Employee();
+
+            employee.setName(nameLastName[0]);
+            employee.setLastName(nameLastName[1]);
+            employee.setDepartment(department);
+
             
+            switch (rankName) {
+                case "junior":
+                    employee.setRank(Rank.JUNIOR.toString());
+                    break;
+                case "mid-level":
+                    employee.setRank(Rank.MIDLEVEL.toString());
+                    break;
+                case "senior":
+                    employee.setRank(Rank.SENIOR.toString());
+                    break;
+                default:
+                    throw new Exception("Enumeration type not found");
+            }
+
+            LocalDate today = LocalDate.now();
+            String formatted = today.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+
+            employee.setEmployementDate(formatted);
+
+            Account newAccount = new Account();
+
+            newAccount.setEmployee(employee);
+            newAccount.setFirstConnexion(true);
+            newAccount.setFirstPassword();
+
+            if (employeeList.isEmpty()) {
+
+                newAccount.setUsername(
+                        nameLastName[0].toLowerCase() + "." + nameLastName[1].toLowerCase() + employeeList.size());
+
+            } else {
+
+                newAccount.setUsername(nameLastName[0].toLowerCase() + "." + nameLastName[1].toLowerCase());
+
+            }
+
+            EmployeesAction.getDao().addEmployee(employee);
 
         } catch (Exception e) {
             e.printStackTrace();

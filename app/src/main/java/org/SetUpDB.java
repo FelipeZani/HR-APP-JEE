@@ -1,19 +1,17 @@
 
-
 package org;
 
-import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.department.dea.DepartmentDAO;
 import org.department.model.Department;
 import org.employee.dea.EmployeeDAO;
-import org.employee.dea.PayStubDAO;
+import org.employee.dea.PostDAO;
 import org.employee.model.Account;
 import org.employee.model.Employee;
 import org.employee.model.PayStub;
 import org.employee.model.Post;
-import org.project.dea.EmployeeProjectDAO;
 import org.project.dea.ProjectDAO;
 import org.project.model.EmployeeProject;
 import org.project.model.EmployeeProjectId;
@@ -23,23 +21,20 @@ import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.annotation.WebListener;
 
-
 @WebListener
-public class SetUpDB implements ServletContextListener  {
+public class SetUpDB implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         Employee employee = new Employee();
         EmployeeDAO empDao = new EmployeeDAO();
 
-
-        if(empDao.isEmployeeTabEmpty()){
+        if (empDao.isEmployeeTabEmpty()) {
 
             employee.setName("Felipe");
             employee.setLastName("ZANI");
             employee.setRank("JUNIOR");
             employee.setEmployementDate("03-05-2025");
-            
 
             PayStub payStub = new PayStub();
             payStub.setDate("08-09-2005");
@@ -49,13 +44,10 @@ public class SetUpDB implements ServletContextListener  {
 
             payStub.setEmployee(employee);
 
-
-
             Set<PayStub> paystubs = new HashSet<PayStub>();
-            
+
             paystubs.add(payStub);
             employee.setPayStubSet(paystubs);
-
 
             Account userAccount = new Account();
             userAccount.setUsername("felipe.zani");
@@ -68,43 +60,40 @@ public class SetUpDB implements ServletContextListener  {
             Post post = new Post();
             post.setLabel("Dev");
             post.setWage(35f);
-            
-            Set<Employee> postTeam = new HashSet<>();
-            postTeam.add(employee);
-
-            post.setEmployeeSet(postTeam);
-
+            post.addEmployee(employee);
             employee.setPost(post);
 
+            PostDAO pdao = new PostDAO();
+            pdao.addPost(post);
 
-
-
+            //Here the user is dete
             Department department = new Department();
             department.setName("Research and Stuff");
-            Set<Employee> departmentTeam = new HashSet<>();
-            departmentTeam.add(employee);
-            department.setDepartmentEmployees(departmentTeam);
+            department.addEmployeeToDepartment(employee);
             department.setManagerEmployee(employee);
+            employee.setDepartment(department);
 
             employee.setDepartmentManagered(department);
 
-            employee.setDepartment(department);
+            DepartmentDAO derpdao = new DepartmentDAO();
+            derpdao.addDepartment(department);
 
             Project project = new Project();
-            project.setLabel("AI Health Detection System");
+            project.setLabel("AI Vibe Coded System");
             project.setDeadLine("05-10-2013");
             project.setStatus("ONGOING");
+            project.setProjectManagerEmployee(employee);
 
 
             employee.setProjectManagered(project);
 
-            
+            ProjectDAO projectDAO = new ProjectDAO();
+            projectDAO.addProject(project);
             
             EmployeeProjectId epId = new EmployeeProjectId();
-            
+
             epId.setEmployeeId(employee.getEmployeeId());
             epId.setProjectId(project.getProjectId());
-            
 
             EmployeeProject employeeProject = new EmployeeProject();
             employeeProject.setId(epId);
@@ -112,13 +101,11 @@ public class SetUpDB implements ServletContextListener  {
             employeeProject.setProject(project);
             employeeProject.setAssignmentDate("01-02-2002");
 
+            employee.addEmployeeProjects(employeeProject);
+            project.addEmployeeProjects(employeeProject);
 
-            Set<EmployeeProject> noCreativityForAnNewName = new HashSet<EmployeeProject>();
-            noCreativityForAnNewName.add(employeeProject);
-            
-            employee.setEmployeeProjects(noCreativityForAnNewName);
-            project.setEmployeeProjects(noCreativityForAnNewName);
-            empDao.addEmployee(employee);
+            empDao.updateEmployee(employee);;
+
         }
-    } 
+    }
 }

@@ -8,10 +8,14 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-public abstract class Action {
+public abstract class DepartmentAction {
     
     protected static DepartmentDAO dao = new DepartmentDAO();
 
     public abstract void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
+
+    public static DepartmentDAO getDao() {
+        return dao;
+    }
     
 }

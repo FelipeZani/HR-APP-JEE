@@ -12,10 +12,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
 
 @Entity
 public class Project {
@@ -34,7 +32,7 @@ public class Project {
     @JoinColumn(name = "projectManagerEmployeeId", referencedColumnName = "employeeId")
     private Employee projectManagerEmployee;
 
-    @OneToMany(mappedBy = "project")
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     private Set<EmployeeProject> employeeProjects = new HashSet<>();
 
 
@@ -82,7 +80,10 @@ public class Project {
     public Set<EmployeeProject> getEmployeeProjects() {
         return employeeProjects;
     }
-
+    
+    public void addEmployeeProjects(EmployeeProject emp){
+        this.employeeProjects.add(emp);
+    }
 
     public void setEmployeeProjects(Set<EmployeeProject> employeeProjects) {
         this.employeeProjects = employeeProjects;

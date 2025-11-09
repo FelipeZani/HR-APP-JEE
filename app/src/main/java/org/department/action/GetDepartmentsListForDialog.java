@@ -9,7 +9,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-public class GetDepartmentsListForDialog extends Action{
+public class GetDepartmentsListForDialog extends DepartmentAction{
 
 
     @Override
@@ -17,7 +17,7 @@ public class GetDepartmentsListForDialog extends Action{
         try {
             
             String responseHTML ="<option value=\"\" selected disabled>Select department</option>";
-            List<Department> departmentList =  Action.dao.getDepartementList();
+            List<Department> departmentList =  DepartmentAction.dao.getDepartementList();
 
             if( departmentList == null || departmentList.isEmpty()){
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Department data unavailable");
@@ -26,7 +26,7 @@ public class GetDepartmentsListForDialog extends Action{
 
 
             for (Department department : departmentList) {
-                responseHTML+="<option value='department'>"+department.getName()+"</option>";
+                responseHTML+="<option value='"+department.getName()+"'>"+department.getName()+"</option>";
                 
             }
             response.getWriter().write(responseHTML);

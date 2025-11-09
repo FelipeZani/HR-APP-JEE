@@ -10,12 +10,27 @@ import org.util.HibernateUtil;
 public class EmployeeDAO {
 
     public void addEmployee(Employee emp) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        session.persist(emp);
-        session.getTransaction().commit();
 
-        session.close();
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            
+            session.beginTransaction();
+            session.persist(emp);
+            session.getTransaction().commit();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void updateEmployee(Employee emp){
+        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+            session.beginTransaction();
+            session.merge(emp);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public List<Employee> getAllEmployees() {
@@ -40,12 +55,8 @@ public class EmployeeDAO {
     public List<Employee> getEmployeeByParameters(String id, String name, String lastname, String department) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 
-
-            
-
             StringBuilder hib = new StringBuilder("from Employee e where 1=1");
             int countNullVariables = 0;
-
 
             if (id != null && !id.equals("")) {
                 hib.append(" and e.id = :id");
@@ -66,7 +77,7 @@ public class EmployeeDAO {
                 hib.append(" and e.department = :department");
                 countNullVariables++;
             }
-            if(countNullVariables == 0){
+            if (countNullVariables == 0) {
                 throw new IllegalArgumentException("At least one paremeter is required to research an employee");
             }
 
@@ -81,7 +92,7 @@ public class EmployeeDAO {
             if (lastname != null && !lastname.equals(""))
                 query.setParameter("lastname", lastname);
 
-            if (department != null &&  !department.equals(""))
+            if (department != null && !department.equals(""))
                 query.setParameter("department", department);
 
             List<Employee> empList = query
@@ -90,11 +101,10 @@ public class EmployeeDAO {
 
             return empList;
 
-        }catch(IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             e.printStackTrace();
             return null;
-        } 
-        
+        }
 
     }
 

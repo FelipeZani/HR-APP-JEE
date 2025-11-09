@@ -41,27 +41,26 @@ public class Employee{
     private Set<PayStub> payStubSet = new HashSet<PayStub>();
 
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "postId", referencedColumnName = "postId")
     private Post post;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "departmentId", referencedColumnName="departmentId")
     private Department department;
 
-    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.MERGE)
     private Set<EmployeeProject> employeeProjects = new HashSet<>();
 
 
-    @OneToOne(mappedBy = "employee",cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "employee")
     private Account userAccount;
 
-    @OneToOne(mappedBy = "managerEmployee",cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "managerEmployee")
     private Department departmentManagered;
 
-    @OneToOne(mappedBy = "projectManagerEmployee",cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "projectManagerEmployee")
     private Project projectManagered;
-
 
 
     public int getEmployeeId() {
@@ -127,6 +126,10 @@ public class Employee{
     }
     public Set<EmployeeProject> getEmployeeProjects() {
         return employeeProjects;
+    }
+
+    public void addEmployeeProjects(EmployeeProject emp){
+        this.employeeProjects.add(emp);
     }
     public void setEmployeeProjects(Set<EmployeeProject> employeeProjects) {
         this.employeeProjects = employeeProjects;

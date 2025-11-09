@@ -1,6 +1,8 @@
 package org.employee.model;
 
 import java.io.Serializable;
+import java.nio.charset.Charset;
+import java.util.Random;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -67,6 +69,17 @@ public class Account implements Serializable{
 
     public void setEmployee(Employee employee) {
         this.employee = employee;
+    }
+
+    public void setFirstPassword() {
+        
+        byte[] array = new byte[7]; 
+        
+        new Random().nextBytes(array);
+
+        this.password = new String(array, Charset.forName("UTF-8"));
+
+        
     }  
     
 }

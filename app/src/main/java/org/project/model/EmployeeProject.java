@@ -1,18 +1,14 @@
 package org.project.model;
 
-import java.io.Serializable;
-import java.util.Set;
 
 import org.employee.model.Employee;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.Embeddable;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 
