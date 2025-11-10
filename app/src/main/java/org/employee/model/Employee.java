@@ -32,7 +32,7 @@ public class Employee{
     private String name;
     @Column(name="lastname", updatable = true, nullable = false)
     private String lastname;
-    @Column(name="rank", updatable = true, nullable = false)
+    @Column(name = "employee_rank", updatable = true, nullable = false) // Changed from "rank" to "employee_rank"
     private String rank;
     @Column(name = "employmentdate" , updatable=false, nullable = false)
     private String employementdate;
