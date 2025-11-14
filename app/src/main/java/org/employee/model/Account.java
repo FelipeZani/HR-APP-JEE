@@ -1,11 +1,9 @@
 package org.employee.model;
 
 import java.io.Serializable;
-import java.io.StringBufferInputStream;
-import java.nio.charset.Charset;
+
 import java.util.Random;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -74,7 +72,7 @@ public class Account implements Serializable {
     public void setEmployee(Employee employee) {
         this.employee = employee;
     }
-
+    
     private void setFirstPassword() {
 
         Random r = new Random();

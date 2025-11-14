@@ -67,6 +67,10 @@ public class Post {
         this.employeeSet = employeeSet;
     }
 
+    public void removeEmployeeFromSet(Employee employee){
+        this.employeeSet.remove(employee);
+    }
+
     @Override
     public String toString() {
         StringBuilder toString = new StringBuilder( "Post postId=" + postId + ", label=" + label + ", wage=" + wage) ;

@@ -14,7 +14,6 @@ import org.employee.model.Post;
 
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
-import jakarta.json.bind.JsonbBuilder;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 

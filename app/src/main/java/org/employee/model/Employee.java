@@ -50,7 +50,9 @@ public class Employee{
     @JoinColumn(name = "departmentId", referencedColumnName="departmentId")
     private Department department;
 
-    @OneToMany(mappedBy = "employee", cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy = "employee", 
+    cascade = CascadeType.MERGE,
+    orphanRemoval = true)
     private Set<EmployeeProject> employeeProjects = new HashSet<>();
 
 
@@ -125,6 +127,16 @@ public class Employee{
     public void setDepartmentManagered(Department departmentManagered) {
         this.departmentManagered = departmentManagered;
     }
+
+    public void removeEmployeeProject(){
+    
+        for(EmployeeProject empro : this.employeeProjects){
+            if( this.employeeId == empro.getEmployee().getEmployeeId()){
+                this.employeeProjects.remove(empro);
+            }
+        }
+
+    }
     public Set<EmployeeProject> getEmployeeProjects() {
         return employeeProjects;
     }
@@ -141,6 +153,8 @@ public class Employee{
     public void setProjectManagered(Project projectManagered) {
         this.projectManagered = projectManagered;
     }
+
+
     
     
 

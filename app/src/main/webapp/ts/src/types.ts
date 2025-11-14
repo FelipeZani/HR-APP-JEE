@@ -1,5 +1,5 @@
 export interface EmployeeDataType{
-    id: string | null,
+    id: string,
     name: string,
     post: string,
     department: string,

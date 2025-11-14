@@ -2,9 +2,14 @@ package org.employee.dea;
 
 import java.util.List;
 
+import org.department.model.Department;
+import org.employee.model.Account;
 import org.employee.model.Employee;
+import org.employee.model.Post;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+import org.project.model.Project;
 import org.util.HibernateUtil;
 
 public class EmployeeDAO {
@@ -12,7 +17,7 @@ public class EmployeeDAO {
     public void addEmployee(Employee emp) {
 
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            
+
             session.beginTransaction();
             session.persist(emp);
             session.getTransaction().commit();
@@ -23,8 +28,8 @@ public class EmployeeDAO {
 
     }
 
-    public void updateEmployee(Employee emp){
-        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+    public void updateEmployee(Employee emp) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             session.beginTransaction();
             session.merge(emp);
             session.getTransaction().commit();
@@ -52,33 +57,89 @@ public class EmployeeDAO {
 
     }
 
+    public void removeEmployee(String employeeid) {
+
+        Transaction transaction = null;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        try {
+
+            transaction = session.beginTransaction();
+
+            Employee emp = session.get(Employee.class, employeeid);
+
+            Department derp = emp.getDepartment();
+            Account acc = emp.getUserAccount();
+            Project projectManagered = emp.getProjectManagered();
+            Post post = emp.getPost(); //post and department are parents of the employee clas therefore I delete employee records of it
+            //Nevertheless I still need them to be present in the database: A Department can exist yet without an employee member/manager
+            // and a post without an employee
+
+            post.removeEmployeeFromSet(emp);
+            emp.setPost(null);
+            session.merge(post);
+
+            derp.removeEmployeeFromSet(emp);
+
+            emp.setDepartment(null);
+
+            if (derp.getManagerEmployee() != null) {
+                if (derp.getManagerEmployee().getEmployeeId() == emp.getEmployeeId()) {
+                    derp.setManagerEmployee(null);
+                }
+            }
+
+            session.merge(derp);
+
+            if (projectManagered != null) {
+                projectManagered.setProjectManagerEmployee(null);
+                session.merge(projectManagered);
+            }
+
+            acc.setEmployee(null);
+
+            session.remove(acc);
+
+            emp.removeEmployeeProject();
+
+            emp.setUserAccount(null);
+
+            session.remove(emp);
+
+            transaction.commit();
+
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+
+            e.printStackTrace();
+
+        } finally {
+            session.close();
+        }
+
+    }
+
     public List<Employee> getEmployeeByParameters(String id, String name, String lastname, String department) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 
-            StringBuilder hib = new StringBuilder("from Employee e where 1=1");
-            int countNullVariables = 0;
+            StringBuilder hib = new StringBuilder("from Employee e where 1=1"); //this will return all employees if no parameter is valid
 
             if (id != null && !id.equals("")) {
                 hib.append(" and e.id = :id");
-                countNullVariables++;
             }
 
             if (name != null && !name.equals("")) {
                 hib.append(" and e.name = :name");
-                countNullVariables++;
             }
 
             if (lastname != null && !lastname.equals("")) {
                 hib.append(" and e.lastname = :lastname");
-                countNullVariables++;
             }
 
             if (department != null && !department.equals("")) {
                 hib.append(" and e.department = :department");
-                countNullVariables++;
-            }
-            if (countNullVariables == 0) {
-                throw new IllegalArgumentException("At least one paremeter is required to research an employee");
             }
 
             Query<Employee> query = session.createQuery(hib.toString(), Employee.class);

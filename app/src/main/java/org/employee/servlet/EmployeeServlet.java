@@ -6,6 +6,7 @@ import java.util.Enumeration;
 import org.employee.action.AddEmployee;
 import org.employee.action.GetAllEmployees;
 import org.employee.action.GetEmployeeByParameters;
+import org.employee.action.RemoveEmployeeAction;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -91,6 +92,42 @@ public class EmployeeServlet extends HttpServlet {
 
         }
 
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+       
+         try {
+
+            Enumeration<String> attributeNames = req.getParameterNames(); //I Have to find a way to get the action 
+
+            if (attributeNames == null || attributeNames.nextElement() == null) {
+                resp.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED, "Unknown passed method");
+                return;
+
+            }
+
+            String actionKey = (String) req.getParameter("action");
+
+            
+            switch (actionKey) {
+               
+                case "removeemployee":
+                    RemoveEmployeeAction removeEmployee = new RemoveEmployeeAction();
+                    removeEmployee.execute(req, resp);
+                
+                    break;
+                default:
+                    resp.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED, "Unknown passed method");
+                    break;
+            }
+
+        }catch (Exception e) {
+            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Request failed");
+
+            e.printStackTrace();
+
+        }
     }
 
 }

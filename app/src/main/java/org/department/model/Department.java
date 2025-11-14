@@ -33,7 +33,7 @@ import jakarta.persistence.GeneratedValue;
 
 
         @OneToOne
-        @JoinColumn(name = "managerEmployeeId", referencedColumnName = "employeeId")
+        @JoinColumn(name = "managerEmployeeId", referencedColumnName = "employeeId", nullable = true)
         private Employee managerEmployee;
 
 
@@ -72,6 +72,10 @@ import jakarta.persistence.GeneratedValue;
 
         public void setManagerEmployee(Employee managerEmployee) {
             this.managerEmployee = managerEmployee;
+        }
+        public void removeEmployeeFromSet(Employee emp) {
+            
+            this.departmentEmployees.remove(emp);
         }
 
 

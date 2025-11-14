@@ -1,5 +1,10 @@
 
-import { NewlyCreatedEmployeeType } from './types'
+import { NewlyCreatedEmployeeType } from '../types.js'
+import { modifyEmployee } from './modifyEmployee.js';
+import{removeEmployee} from './removeEmployee.js'
+
+
+
 const submitButton = document.getElementById("newemployee-form-submitBtn") as HTMLButtonElement;
 
 
@@ -12,20 +17,15 @@ submitButton.addEventListener("click", () => {
 });
 
 async function sendData() {
-    
-    const form = document.querySelector("#newemployee-form") as HTMLFormElement;
-    const dialog = document.querySelector("#newemployee-dialog") as HTMLDialogElement;
-    const dialog2 = document.querySelector("newlycreatedemployee-dialog") as HTMLDialogElement;
-    if(!dialog || !dialog2){
-        console.log("Form not found");
-        return;
-    }
-    if(!form) {
-        console.log("Form not found");
+
+    const form = document.getElementById("newemployee-form") as HTMLFormElement;
+
+    if (!form) {
+        console.log("newemployee form not found");
         return;
     }
 
-    if(!form.checkValidity()) {
+    if (!form.checkValidity()) {
         console.log("Form is not valid");
         return;
     }
@@ -40,8 +40,10 @@ async function sendData() {
         rank: formData.get("rank") as string
 
     }
+    
     const newEmployeeURL = new URLSearchParams(newEmployee);
     console.log(newEmployeeURL.toString());
+
     try {
         const formData = new FormData(form);
         if (formData) {
@@ -54,10 +56,8 @@ async function sendData() {
                 body: newEmployeeURL.toString(),
 
             });
-
-            if(await response.ok){
+            if (response.ok) {
                 const responseData = await response.json();
-                
                 const newlyCreatedEmployee: NewlyCreatedEmployeeType = {
                     id: responseData.id,
                     name: responseData.name,
@@ -68,18 +68,15 @@ async function sendData() {
                     password: responseData.password,
 
                 }
-                
-                dialog.close();
-                
 
-            }else{
-                console.log(await response.statusText);
+                showCreatedEmployeeModal(newlyCreatedEmployee);
+                appendEmployeeToHome(newlyCreatedEmployee);
+
+
+            } else {
+                console.log(response.statusText);
             }
 
-            
-
-
-            console.log(await response.json());
         } else {
             console.error("Problem with formData");
         }
@@ -91,24 +88,42 @@ async function sendData() {
 
 
 }
-//vibe coded late at night
+
 function showCreatedEmployeeModal(emp: NewlyCreatedEmployeeType) {
+    const dialog = document.getElementById("newemployee-dialog") as HTMLDialogElement;
+    const dialog2 = document.getElementById("newlycreatedemployee-dialog") as HTMLDialogElement;
+
+    if (!dialog || !dialog2) {
+        console.log("Dialog newemployee : ",dialog);
+        console.log("Dialog newlycreated employee : ",dialog2);
+        return;
+    }
+
     const usernameP = document!!.getElementById("newlycreatedemployee-username");
     const passwordP = document!!.getElementById("newlycreatedemployee-password");
 
+
     if (usernameP) usernameP.textContent = emp.username;
     if (passwordP) passwordP.textContent = emp.password;
+
+    dialog.close();
+    dialog2.showModal();
+
 }
-
 function appendEmployeeToHome(emp: NewlyCreatedEmployeeType) {
+    
     const bodyTable = document.getElementById("bodytable");
-    if (!bodyTable) return;
+    
+    if (!bodyTable) {
+        console.log("BodyTable id not found")
+        return;
+    };
 
-    // Create a new row container
     const rowDiv = document.createElement("div");
     rowDiv.className = "row";
+    rowDiv.dataset.id = `${emp.id}`;
 
-    // Create cells
+
     const nameDiv = document.createElement("div");
     nameDiv.textContent = emp.name;
 
@@ -122,19 +137,25 @@ function appendEmployeeToHome(emp: NewlyCreatedEmployeeType) {
     rankDiv.textContent = emp.rank;
 
     const actionDiv = document.createElement("div");
-    // you can add buttons or actions here
-    const viewBtn = document.createElement("button");
-    viewBtn.textContent = "View";
-    viewBtn.onclick = () => showCreatedEmployeeModal(emp); // optional
-    actionDiv.appendChild(viewBtn);
 
-    // Append all cells to the row
+    const modifyEmployeeButton = document.createElement("button");
+    const deleteEmployeeButton = document.createElement("button");
+
+    modifyEmployeeButton.textContent = "modify";
+    deleteEmployeeButton.textContent = "remove";
+
+    modifyEmployeeButton.onclick = () => modifyEmployee(emp.id.toString());
+    deleteEmployeeButton.onclick = () => removeEmployee(emp.id.toString());
+
+    actionDiv.appendChild(modifyEmployeeButton);
+    actionDiv.appendChild(deleteEmployeeButton);
+
     rowDiv.appendChild(nameDiv);
     rowDiv.appendChild(postDiv);
     rowDiv.appendChild(departmentDiv);
     rowDiv.appendChild(rankDiv);
     rowDiv.appendChild(actionDiv);
 
-    // Append the row to the table
     bodyTable.appendChild(rowDiv);
 }
+

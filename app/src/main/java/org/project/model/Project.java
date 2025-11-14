@@ -29,7 +29,7 @@ public class Project {
     private String deadLine;
 
     @OneToOne
-    @JoinColumn(name = "projectManagerEmployeeId", referencedColumnName = "employeeId")
+    @JoinColumn(name = "projectManagerEmployeeId", referencedColumnName = "employeeId", nullable = true)
     private Employee projectManagerEmployee;
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
@@ -98,6 +98,10 @@ public class Project {
     public void setProjectManagerEmployee(Employee projectManagerEmployee) {
         this.projectManagerEmployee = projectManagerEmployee;
     }
+
+
+    
+
 
 
 
