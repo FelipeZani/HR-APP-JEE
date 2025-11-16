@@ -17,7 +17,7 @@ public class GetPostsListForDialog extends PostsAction {
 
             List<Post> postsList = PostsAction.dao.getPostList();
             for (Post post : postsList) {
-                responseHTML+="<option value='"+post.getLabel()+"'>"+post.getLabel()+"</option>";
+                responseHTML+="<option value='"+post.getLabel().toLowerCase()+"'>"+post.getLabel()+"</option>";
             }
 
             response.getWriter().write(responseHTML);

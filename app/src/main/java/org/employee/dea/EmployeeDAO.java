@@ -29,19 +29,32 @@ public class EmployeeDAO {
     }
 
     public void updateEmployee(Employee emp) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            session.beginTransaction();
+
+        Session session =  HibernateUtil.getSessionFactory().openSession();;
+        Transaction trx = null;
+        try {
+            trx = session.beginTransaction();
+            
             session.merge(emp);
-            session.getTransaction().commit();
+            trx.commit();
         } catch (Exception e) {
+            if(trx!= null){
+                trx.rollback();
+            }
             e.printStackTrace();
+        }finally{
+            session.close();
         }
+        
     }
 
+    
+
     public List<Employee> getAllEmployees() {
+
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 
-            List<Employee> employeesList = session.createQuery("from Employee", Employee.class)
+            List<Employee> employeesList = session.createQuery("from Employee order by post desc, rank desc", Employee.class)
                     .list();
 
             if (employeesList.size() <= 0) {
@@ -71,8 +84,10 @@ public class EmployeeDAO {
             Department derp = emp.getDepartment();
             Account acc = emp.getUserAccount();
             Project projectManagered = emp.getProjectManagered();
-            Post post = emp.getPost(); //post and department are parents of the employee clas therefore I delete employee records of it
-            //Nevertheless I still need them to be present in the database: A Department can exist yet without an employee member/manager
+            Post post = emp.getPost(); // post and department are parents of the employee clas therefore I delete
+                                       // employee records of it
+            // Nevertheless I still need them to be present in the database: A Department
+            // can exist yet without an employee member/manager
             // and a post without an employee
 
             post.removeEmployeeFromSet(emp);
@@ -121,10 +136,28 @@ public class EmployeeDAO {
 
     }
 
+    public Employee getEmployeeById(String employeeid) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+
+            if (employeeid == null || employeeid.isEmpty()) {
+                throw new IllegalArgumentException("Id is not valid");
+            }
+
+            Employee emp = (Employee) session.get(Employee.class,employeeid);
+
+            return emp;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+
+    }
+
     public List<Employee> getEmployeeByParameters(String id, String name, String lastname, String department) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 
-            StringBuilder hib = new StringBuilder("from Employee e where 1=1"); //this will return all employees if no parameter is valid
+            StringBuilder hib = new StringBuilder("from Employee e where 1=1"); // this will return all employees if no
+                                                                                // parameter is valid
 
             if (id != null && !id.equals("")) {
                 hib.append(" and e.id = :id");

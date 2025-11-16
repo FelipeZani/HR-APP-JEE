@@ -18,26 +18,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 public class AddEmployee extends EmployeesAction {
-    enum Rank {
-        JUNIOR,
-        MIDLEVEL,
-        SENIOR;
-
-        @Override
-        public String toString() {
-            switch (this.ordinal()) {
-                case 0:
-                    return "JUNIOR";
-                case 1:
-                    return "MIDLEVEL";
-                case 2:
-                    return "SENIOR";
-                default:
-                    return null;
-            }
-        }
-
-    }
+ 
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {

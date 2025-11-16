@@ -1,6 +1,8 @@
 # HR management app
 ## Launching app
 
+## Requirements
+- Internet connection
 
 ## Devs
 ZANI DA SILVA Amâncio Felipe

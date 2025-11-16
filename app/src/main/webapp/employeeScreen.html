@@ -19,7 +19,7 @@
     <script type="module" src="./ts/dist/employeeScreen/newEmployee.js" defer></script>
     <script type="module" src="./ts/dist/employeeScreen/removeEmployee.js" defer></script>
     <script type="module" src="./ts/dist/employeeScreen/modifyEmployee.js" defer></script>
-    
+
     <!-- Using HTTP requests only when it's necessary to append dynamic content directly from the database into the DOM -->
     <!-- HTTP requests are sent to a central endpoint and only the redirected to their respective destinations, we are using hidden inputs as filters -->
 
@@ -34,6 +34,29 @@
             <button id="searchemployee-opendialogbutton">SearchEmployee</button>
 
             <button id="newemployee-opendialogbutton">New Employee</button>
+            <button id="newpost-opendialogbutton">New Post</button>
+
+            <dialog class="styled-dialog" id="newpost-dialog">
+                <form hx-validate="true" class="form-dialog" id="newpost-form"
+                    hx-post="http://localhost:8080/app/postServlet" hx-swap="innerHTML" hx-trigger="submit">
+                    <input type="hidden" name="action" value="addnewpost">
+
+                    <label>Post Label:
+                        <input type="text" name="postlabel" required pattern="[A-ZÀ-Ï][a-zà-ï]+(\s[A-ZÀ-Ï][a-zà-ï]+)*">
+                    </label>
+
+                    <label>Wage €/h:
+                        <input type="number" name="postwage" required min="0">
+                    </label>
+
+                    <div class="dialog-form-buttonWrapper">
+                        <input type="submit" value="submit" id="newpost-form-submitBtn">
+                        <input type="button" value="close" id="newpost-closeButton">
+                    </div>
+                </form>
+
+
+            </dialog>
 
             <dialog class="styled-dialog" id="searchemployee-dialog">
 
@@ -58,7 +81,7 @@
                         hx-trigger="click from:#searchemployee-opendialogbutton" hx-swap="innerHTML">
                     </select>
 
-                    <div id="dialog-form-buttonWrapper">
+                    <div class="dialog-form-buttonWrapper">
                         <input type="button" value="submit" id="dialog-form-submitBtn"
                             hx-post="http://localhost:8080/app/employeeServlet" hx-swap="innerHTML"
                             hx-target="#bodytable">
@@ -94,7 +117,7 @@
                         hx-trigger="click from:#newemployee-opendialogbutton" hx-swap="innerHTML">
                     </select>
 
-                    <div id="dialog-form-buttonWrapper">
+                    <div class="dialog-form-buttonWrapper">
                         <input type="button" value="submit" id="newemployee-form-submitBtn">
                         <input type="button" value="close" id="newemployee-closeButton">
                     </div>
@@ -108,7 +131,7 @@
                     <!-- The following fields are filled once the response is get from the backend  -->
                     <label>Username: <p id="newlycreatedemployee-username"></p></label>
                     <label>Password: <p id="newlycreatedemployee-password"></p></label>
-                    <div id="dialog-form-buttonWrapper">
+                    <div class="dialog-form-buttonWrapper">
                         <input type="button" value="close" id="newlycreatedemployee-closeButton">
                     </div>
                 </form>
@@ -121,15 +144,30 @@
             <dialog class="styled-dialog" id="modifyemployee-dialog">
                 <form class="form-dialog" id="modifyemployee-form">
                     <input type="hidden" name="action" value="modifyemployee">
-                    <label>Name: <input type="text" id="name-input"></label>
-                    <label>Post: <input type="text" id="post-input"></label>
-                    <label>Department: <input type="text" id="department-input"></label>
-                    <label>Rank: <input type="text" id="rank-input"></label>
-                    <label>Password: <input type="password" id="password-input" name></label>
+                    <label>Name: <input type="text" id="name-input" name="modifyemployee-name-input"
+                            pattern="[A-ZÀ-Ï][a-zà-ï]+"></label>
+                    <label>Lastname: <input type="text" id="lastname-input" name="modifyemployee-lastname-input"
+                            pattern="[A-ZÀ-Ï][a-zà-ï]+"></label>
+                    <div id="password-togglestyle-div">
+                        <label>Password: <input type="password" id="password-input" name="modifyemployee-password-input"
+                                pattern="[\w\sÀ-Ïà-ï%°#&^*$@]{4,}">
+                        </label>
 
-                    <div id="dialog-form-buttonWrapper">
-                        <input type="submit" value="submit" id="modifyEmployee-form-submitBtn">
+                    </div>
+                    <select name="rank" id="rank-select">
+                        <option value="junior">Junior</option>
+                        <option value="midlevel">Mid-level</option>
+                        <option value="senior">Senior</option>
+                    </select>
+
+                    <select required name="modifyEmployee-postList" id="post-select"
+                        hx-get="http://localhost:8080/app/postServlet?action=getpostlist" hx-trigger="load">
+
+                    </select>
+                    <div class="dialog-form-buttonWrapper">
+                        <input type="button" value="button" id="modifyemployee-form-submitBtn">
                         <input type="button" value="close" id="modifyemployee-closeButton">
+
                     </div>
                 </form>
             </dialog>

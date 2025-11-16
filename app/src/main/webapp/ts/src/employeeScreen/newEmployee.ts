@@ -125,15 +125,19 @@ function appendEmployeeToHome(emp: NewlyCreatedEmployeeType) {
 
 
     const nameDiv = document.createElement("div");
+    nameDiv.classList.add("name");
     nameDiv.textContent = emp.name;
 
     const postDiv = document.createElement("div");
+    postDiv.classList.add("post");
     postDiv.textContent = emp.post;
 
     const departmentDiv = document.createElement("div");
+    departmentDiv.classList.add("department");
     departmentDiv.textContent = emp.department;
 
     const rankDiv = document.createElement("div");
+    rankDiv.classList.add("rank");
     rankDiv.textContent = emp.rank;
 
     const actionDiv = document.createElement("div");
@@ -143,6 +147,9 @@ function appendEmployeeToHome(emp: NewlyCreatedEmployeeType) {
 
     modifyEmployeeButton.textContent = "modify";
     deleteEmployeeButton.textContent = "remove";
+
+
+    modifyEmployeeButton.classList.add("modifyemployee-opendialogbutton");
 
     modifyEmployeeButton.onclick = () => modifyEmployee(emp.id.toString());
     deleteEmployeeButton.onclick = () => removeEmployee(emp.id.toString());

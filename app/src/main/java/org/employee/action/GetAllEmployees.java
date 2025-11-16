@@ -22,13 +22,19 @@ public class GetAllEmployees extends EmployeesAction {
             }
 
             for (Employee employee : empList) {
-                responseHTML.append( "<div class='row' data-id='" + employee.getEmployeeId() + "'>" +
+                responseHTML.append( 
+                    "<div class='row' data-id='" + employee.getEmployeeId() + "'>" +    
                         "<div class=\'name\'>" + employee.getName() + " " + employee.getLastName() + "</div>" +
+                        
                         "<div class=\'post\'>" + employee.getPost().getLabel() + "</div>" +
+                        
                         "<div class=\'department\'>" + employee.getDepartment().getName() + "</div>" +
+                        
                         "<div class=\'rank\'>" + employee.getRank() + "</div>" +
-                        "<div><button onclick=\"modifyEmployee(\'" + employee.getEmployeeId() + "\')\">modify</button>"+
-                        "<button onclick=\"removeEmployee(\'" + employee.getEmployeeId() + "\')\">remove</button>" +
+                        
+                        "<div>"+
+                            "<button class=\'modifyemployee-opendialogbutton\' onclick=\"modifyEmployee(\'"+employee.getEmployeeId()+"\')\">modify</button>"+
+                            "<button onclick=\"removeEmployee(\'" + employee.getEmployeeId() + "\')\">remove</button>" +
                         "</div>" +
 
                         "</div>");

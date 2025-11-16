@@ -1,8 +1,8 @@
 export function modifyEmployee(id) {
     const modifyEmployeeDialog = document.getElementById("modifyemployee-dialog");
-    const modifyEmployeeSubmitButton = document.getElementById("modifyEmployee-form-submitBtn");
-    if (id === "") {
-        console.log("Id can't be an empty string at modifyEmployee()");
+    const modifyEmployeeSubmitButton = document.getElementById("modifyemployee-form-submitBtn");
+    if (id === "" || !id.match(RegExp("[0-9]+"))) {
+        console.log("Id format is not allowed, at modifyEmployee()");
         return;
     }
     if (!modifyEmployeeSubmitButton) {
@@ -16,7 +16,7 @@ export function modifyEmployee(id) {
     setPlaceHolder(id);
     modifyEmployeeDialog.showModal();
     if (typeof (modifyEmployeeSubmitButton.onclick) != "function") {
-        modifyEmployeeSubmitButton.addEventListener("click", async () => modifyEmployeeRequest(id, modifyEmployeeSubmitButton, modifyEmployeeDialog));
+        modifyEmployeeSubmitButton.onclick = async () => modifyEmployeeRequest(id, modifyEmployeeSubmitButton, modifyEmployeeDialog);
     }
 }
 function setPlaceHolder(id) {
@@ -24,24 +24,21 @@ function setPlaceHolder(id) {
         console.log("Id can't be empty");
         return;
     }
-    const employee = getEmployee(id);
-    if (!employee) {
-        console.log("Employee not found");
+    const nameInput = document.getElementById("name-input");
+    const lastnameInput = document.getElementById("lastname-input");
+    const passwordInput = document.getElementById("password-input");
+    const rankSelect = document.getElementById("rank-select");
+    const postSelect = document.getElementById("post-select");
+    const employeeData = getEmployee(id);
+    if (!nameInput || !passwordInput || !lastnameInput || !rankSelect || !postSelect) {
+        console.log("Input field not valid at setplaceHolder()");
         return;
     }
-    const inputName = document.getElementById("name-input");
-    const inputPost = document.getElementById("post-input");
-    const inputDepartment = document.getElementById("department-input");
-    const inputRank = document.getElementById("rank-input");
-    if (!inputName || !inputPost || !inputDepartment || !inputRank) {
-        console.log("Input field not valid");
-        return;
-    }
-    inputName.placeholder = employee.name;
-    inputPost.placeholder = employee.post;
-    inputDepartment.placeholder = employee.department;
-    inputRank.placeholder = employee.rank;
+    nameInput.placeholder = employeeData.name;
+    lastnameInput.placeholder = employeeData.lastname;
+    rankSelect.value = employeeData.rank.toLowerCase();
 }
+//It s assumed that in order to modify an employee, the employee exist in the front end, otherwise the modify employee open dialog button wouldn't be recheable
 function getEmployee(employeeId) {
     const rowDiv = document.querySelector(`[data-id="${employeeId}"]`);
     if (!employeeId) {
@@ -54,17 +51,19 @@ function getEmployee(employeeId) {
         console.log("row : " + rowDiv);
         return null;
     }
+    const fullname = rowDiv.querySelector('.name').textContent.split(" ");
     const selectedEmployee = {
         id: employeeId,
-        name: rowDiv.querySelector('.name').textContent,
-        post: rowDiv.querySelector('.post').textContent,
-        department: rowDiv.querySelector('.department').textContent,
-        rank: rowDiv.querySelector('.rank').textContent
+        name: fullname[0],
+        lastname: fullname[1],
+        rank: rowDiv.querySelector('.rank').textContent,
+        post: rowDiv.querySelector('.post').textContent
     };
     return selectedEmployee;
 }
 //Implementation not ready
 async function modifyEmployeeRequest(id, modifyEmployeeSubmitButton, modifyEmployeeDialog) {
+    const form = document.getElementById("modifyemployee-form");
     if (id === "") {
         console.log("Id can't be an empty string at modifyEmployeeRequest()");
         return;
@@ -77,14 +76,42 @@ async function modifyEmployeeRequest(id, modifyEmployeeSubmitButton, modifyEmplo
         console.log("modifyemployeeDialog not found at modifyEmployeeRequest()");
         return;
     }
+    if (!form) {
+        console.log("form not found at modifyEmployeeRequest()");
+        return;
+    }
+    if (!form.checkValidity()) {
+        console.log("Form to modify employee not valid");
+        return;
+    }
+    const formData = new FormData(form);
+    const modifiedEmployee = {
+        action: formData.get("action"),
+        id: id,
+        name: formData.get("modifyemployee-name-input"),
+        lastname: formData.get("modifyemployee-lastname-input"),
+        rank: formData.get("rank"),
+        newPassword: formData.get("modifyemployee-password-input")
+    };
+    if (!checkFormValuesChanged(modifiedEmployee)) {
+        console.log("Form values didn't change");
+        return;
+    }
+    const searchParams = new URLSearchParams(modifiedEmployee);
     try {
-        const response = await fetch("", {
-            method: "PATCH",
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
-            },
-            body: JSON.stringify("")
+        const response = await fetch("http://localhost:8080/app/employeeServlet?" + searchParams, {
+            method: "PATCH"
         });
+        if (response.ok) {
+            const dataResponse = await response.json();
+            const updatedRowDiv = document.querySelector(`[data-id='${dataResponse.id}']`);
+            const nameCol = updatedRowDiv?.querySelector('.name');
+            const rankCol = updatedRowDiv?.querySelector('.rank');
+            const postCol = updatedRowDiv?.querySelector('.post');
+            nameCol.textContent = dataResponse.name;
+            rankCol.textContent = dataResponse.rank;
+            postCol.textContent = dataResponse.post;
+        }
     }
     catch (error) {
         console.error(error);
@@ -93,3 +120,14 @@ async function modifyEmployeeRequest(id, modifyEmployeeSubmitButton, modifyEmplo
 //expose function globabally
 ;
 window.modifyEmployee = modifyEmployee;
+function checkFormValuesChanged(employeeData) {
+    let count = 0;
+    const expectedNotNullEmementsNb = 4;
+    Object.values(employeeData).forEach((value) => {
+        if (typeof value != 'undefined' && value) {
+            count++;
+        }
+    });
+    console.log(count);
+    return count >= expectedNotNullEmementsNb;
+}

@@ -1,7 +1,7 @@
 
 
 
-const openDialogButtonIds: ReadonlyArray<string> = Array.of("searchemployee", "newemployee");
+const openDialogButtonIds: ReadonlyArray<string> = Array.of("searchemployee", "newemployee","newpost");
 
 openDialogButtonIds.forEach((dialogId) => {
     const openDialogButton = document.getElementById(`${dialogId}-opendialogbutton`) as HTMLButtonElement;
@@ -12,6 +12,7 @@ openDialogButtonIds.forEach((dialogId) => {
             dialogElement.showModal();
 
         });
+        
     } else {
         console.log("OpenDialogButton not found: " + openDialogButton);
     }
@@ -19,10 +20,11 @@ openDialogButtonIds.forEach((dialogId) => {
 });
 
 
-const dialogrelatedId: ReadonlyArray<string> = Array.of("searchemployee", "newemployee", "modifyemployee", "removeemployee", "newlycreatedemployee");
+const dialogrelatedId: ReadonlyArray<string> = Array.of("searchemployee", "newemployee", "modifyemployee", "removeemployee", "newlycreatedemployee","newpost");
 
 
 dialogrelatedId.forEach((dialogId) => {
+    
     const closeDialogButton = document.getElementById(`${dialogId}-closeButton`) as HTMLButtonElement;
     const dialogElement = document.getElementById(`${dialogId}-dialog`) as HTMLDialogElement;
     const formDialog = document.getElementById(`${dialogId}-form`) as HTMLFormElement;

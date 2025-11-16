@@ -1,5 +1,5 @@
 "use strict";
-const openDialogButtonIds = Array.of("searchemployee", "newemployee");
+const openDialogButtonIds = Array.of("searchemployee", "newemployee", "newpost");
 openDialogButtonIds.forEach((dialogId) => {
     const openDialogButton = document.getElementById(`${dialogId}-opendialogbutton`);
     const dialogElement = document.getElementById(`${dialogId}-dialog`);
@@ -12,7 +12,7 @@ openDialogButtonIds.forEach((dialogId) => {
         console.log("OpenDialogButton not found: " + openDialogButton);
     }
 });
-const dialogrelatedId = Array.of("searchemployee", "newemployee", "modifyemployee", "removeemployee", "newlycreatedemployee");
+const dialogrelatedId = Array.of("searchemployee", "newemployee", "modifyemployee", "removeemployee", "newlycreatedemployee", "newpost");
 dialogrelatedId.forEach((dialogId) => {
     const closeDialogButton = document.getElementById(`${dialogId}-closeButton`);
     const dialogElement = document.getElementById(`${dialogId}-dialog`);

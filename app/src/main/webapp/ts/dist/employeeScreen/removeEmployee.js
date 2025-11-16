@@ -15,7 +15,7 @@ export function removeEmployee(id) {
     }
     removeEmployeeDialog.showModal();
     if (typeof (removeEmployeeSubmitButton.onclick) != "function") {
-        removeEmployeeSubmitButton.addEventListener("click", async () => removeEmployeeRequest(id, removeEmployeeSubmitButton, removeEmployeeDialog));
+        removeEmployeeSubmitButton.onclick = async () => removeEmployeeRequest(id, removeEmployeeSubmitButton, removeEmployeeDialog);
     }
 }
 async function removeEmployeeRequest(id, removeEmployeeSubmitButton, removeEmployeeDialog) {
@@ -31,6 +31,7 @@ async function removeEmployeeRequest(id, removeEmployeeSubmitButton, removeEmplo
             throw new Error("RemoveEmployeeRequest failed");
         }
         const removedRow = document.querySelector(`[data-id='${id}']`);
+        console.log(removedRow);
         removeEmployeeSubmitButton.onclick = null;
         removedRow.remove();
         removeEmployeeDialog.close();

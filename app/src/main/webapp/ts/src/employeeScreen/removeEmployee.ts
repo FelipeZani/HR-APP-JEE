@@ -25,7 +25,7 @@ export function removeEmployee(id: string) {
     removeEmployeeDialog.showModal();
 
     if (typeof (removeEmployeeSubmitButton!!.onclick) != "function") {
-        removeEmployeeSubmitButton!!.addEventListener("click", async () => removeEmployeeRequest(id, removeEmployeeSubmitButton, removeEmployeeDialog));
+        removeEmployeeSubmitButton!!.onclick =  async () => removeEmployeeRequest(id, removeEmployeeSubmitButton, removeEmployeeDialog);
 
     }
 
@@ -50,9 +50,9 @@ async function removeEmployeeRequest(id: string, removeEmployeeSubmitButton: HTM
         }
 
         const removedRow = document.querySelector(`[data-id='${id}']`);
+        console.log(removedRow);
 
         removeEmployeeSubmitButton.onclick = null;
-
         removedRow!!.remove();
 
         removeEmployeeDialog.close();
