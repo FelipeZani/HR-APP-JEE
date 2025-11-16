@@ -2,8 +2,6 @@ package org.employee.dea;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.DriverManager;
 
 import org.employee.model.RoleEmployee;
 import org.util.HibernateUtil;

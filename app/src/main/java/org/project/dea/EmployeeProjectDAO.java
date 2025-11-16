@@ -2,7 +2,6 @@ package org.project.dea;
 
 import org.hibernate.Session;
 import org.project.model.EmployeeProject;
-import org.project.model.Project;
 import org.util.HibernateUtil;
 
 public class EmployeeProjectDAO {

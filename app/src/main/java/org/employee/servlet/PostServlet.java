@@ -1,7 +1,6 @@
 package org.employee.servlet;
 
 import java.io.IOException;
-import java.net.http.HttpResponse;
 import java.util.Enumeration;
 
 import org.employee.action.AddPostAction;
