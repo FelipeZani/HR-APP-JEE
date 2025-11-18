@@ -214,4 +214,27 @@ public class EmployeeDAO {
         }
     }
 
+    public Account getUserAccount(String username, String hachedPwd) {
+        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+            session.beginTransaction();
+
+            Query<Account> queryAcc = session.createQuery("from Account where username= :username and password=:pwd",Account.class);
+
+            queryAcc.setParameter("username", username);
+            queryAcc.setParameter("pwd", hachedPwd);
+
+            Account selected = queryAcc.uniqueResult();
+
+            return selected;
+
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+        
+
 }

@@ -1,0 +1,16 @@
+@media screen and (max-width: 680px) {
+    #login-container{
+        display: flex;
+        justify-content: center;
+    }
+    .styled-form {
+        display: flex;
+        flex-direction: column;
+        align-items: end;
+        row-gap: 20px;
+    }
+    #login-submitBtn{
+        align-self: center;
+    }
+
+}

@@ -22,7 +22,7 @@ public class ModifyEmployeeAction extends EmployeesAction {
 
             String newName = "";
             String newLastName = "";
-            String newRank = "";
+            Employee.Rank newRank = null;
             String newPassword = "";
             System.out.println(employeeId);
 
@@ -48,14 +48,14 @@ public class ModifyEmployeeAction extends EmployeesAction {
                 newLastName += oldEmp.getLastName();
             }
 
-            if (Rank.getRank(rank) != null) {
-                newRank = Rank.getRank(rank).toString();
+            if (Employee.Rank.getRank(rank) != null) {
+                newRank = Employee.Rank.getRank(rank);
             } else {
                 newRank = oldEmp.getRank();
             }
 
             if (password != null && !password.isEmpty()) {
-                newPassword = EmployeesAction.hashString(password);
+                newPassword = password;
             } else {
                 newPassword = oldEmp.getUserAccount().getPassword();
             }
@@ -64,20 +64,21 @@ public class ModifyEmployeeAction extends EmployeesAction {
             oldEmp.setLastName(newLastName);
             oldEmp.setRank(newRank);
             oldEmp.getUserAccount().setPassword(newPassword);
-            oldEmp.getUserAccount().setUsername(newLastName.toLowerCase()+"."+newLastName.toLowerCase());
+            oldEmp.getUserAccount().setUsername(newLastName.toLowerCase() + "." + newLastName.toLowerCase());
 
             EmployeesAction.getDao().updateEmployee(oldEmp);
 
             JsonObject jsonResponse = Json.createObjectBuilder()
                     .add("id", oldEmp.getEmployeeId())
                     .add("name", oldEmp.getName() + " " + oldEmp.getLastName())
-                    .add("rank", oldEmp.getRank())
+                    .add("rank", oldEmp.getRank().toString())
                     .build();
             response.getWriter().write(jsonResponse.toString());
         } catch (Exception e) {
-            e.printStackTrace();
 
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            e.printStackTrace();
+
         }
     }
 

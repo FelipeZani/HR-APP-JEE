@@ -67,19 +67,12 @@ public class AddEmployee extends EmployeesAction {
             employee.setLastName(nameLastName[1]);
             employee.setDepartment(department);
 
-            switch (rankName) {
-                case "junior":
-                    employee.setRank(Rank.JUNIOR.toString());
-                    break;
-                case "mid-level":
-                    employee.setRank(Rank.MIDLEVEL.toString());
-                    break;
-                case "senior":
-                    employee.setRank(Rank.SENIOR.toString());
-                    break;
-                default:
-                    throw new Exception("Enumeration type not found");
+            if(Employee.Rank.getRank(rankName) == null){
+                response.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED,"Chosen Rank not allowed");
+                return;
             }
+            employee.setRank(Employee.Rank.getRank(rankName));
+            
 
             LocalDate today = LocalDate.now();
             String formatted = today.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
@@ -108,6 +101,9 @@ public class AddEmployee extends EmployeesAction {
             employee.setDepartment(department);
             post.addEmployee(employee);
             employee.setPost(post);
+            employee.addPermission(Employee.Permissions.NORMALEMPLOYEE);
+           
+           
 
             EmployeesAction.getDao().addEmployee(employee);
 
@@ -117,7 +113,7 @@ public class AddEmployee extends EmployeesAction {
                     .add("name", employee.getName()+" "+employee.getLastName())
                     .add("post", employee.getPost().getLabel())
                     .add("department", employee.getDepartment().getName())
-                    .add("rank", employee.getRank())
+                    .add("rank", employee.getRank().toString())
                     .add("username", employee.getUserAccount().getUsername())
                     .add("password", employee.getUserAccount().getPassword())
                     .build();
