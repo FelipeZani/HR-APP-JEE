@@ -17,6 +17,14 @@ public class LoginAction extends EmployeesAction {
 
             String pwd = (String) request.getParameter("password");
 
+            if(login !=null &&login.matches("[a-z]+.[a-z]+[0-9]*")){
+                response.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE,"Format of username not acceptable");
+                return;
+            }
+            if(pwd!= null && !pwd.isEmpty()){
+                response.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE,"Password canot be empty");
+            }
+
             Account userAcc = EmployeesAction.getDao().getUserAccount(login, pwd);
 
             if (userAcc == null) {

@@ -25,11 +25,11 @@
                     hx-get="http://localhost:8080/app/employeeServlet"
                     hx-target="#login-response"
                     hx-swap="innerHTML"
-                    hx-redirect=""
+                    hx-validate="true"
                     >
                     <input type="hidden" name="action" value="login">
-                    <label> Login:<input type="text" name="username"></label>
-                    <label>Password: <input type="password" name="password"></label>
+                    <label> Login:<input type="text" name="username" pattern="[a-z]+.[a-z]+[0-9]*"></label>
+                    <label>Password: <input type="password" name="password" required></label>
                     <input type="submit" value="submit" id="login-submitbtn">
                 </form>
                 <p id="login-response"></p>

@@ -11,13 +11,13 @@ public class RemoveEmployeeAction extends EmployeesAction {
          
             String userId = (String) request.getParameter("employeeid");
 
-            if(userId == null){
-                throw new NullPointerException("userId is null");
-            }else if(userId == ""){
-                throw new Exception("userId is an empty string: \" \" ");
+            if( userId == null || userId.isBlank()){
+               response.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED,"User Id not incorrect");
             }
 
             EmployeesAction.getDao().removeEmployee(userId);
+
+            
 
             
 

@@ -23,7 +23,7 @@ public class GetEmployeeByParameters extends EmployeesAction {
                     + lastNameParameter + " department: " + departmentParameter);
 
             List<Employee> empList = EmployeesAction.dao.getEmployeeByParameters(idParameter, nameParameter,
-                    lastNameParameter, departmentParameter);
+                    lastNameParameter, departmentParameter,null,null);
 
             if (empList == null) {
                 resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Employee data unavailable");
