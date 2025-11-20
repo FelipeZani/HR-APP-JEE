@@ -2,10 +2,12 @@ package org.employee.servlet;
 
 import java.io.IOException;
 import java.util.Enumeration;
+import java.util.NoSuchElementException;
 
 import org.employee.action.AddEmployee;
 import org.employee.action.GetAllEmployees;
 import org.employee.action.GetEmployeeByParameters;
+import org.employee.action.LoginAction;
 import org.employee.action.ModifyEmployeeAction;
 import org.employee.action.RemoveEmployeeAction;
 
@@ -26,6 +28,9 @@ public class EmployeeServlet extends HttpServlet {
             throw new NullPointerException("Parameters String enumeration is null");
         }
 
+        if(req.getParameter("action") == null){
+            throw new NoSuchElementException("Action Method not found");
+        }
         while (parameterKeyNames.hasMoreElements()) {
 
             String parameterKey = parameterKeyNames.nextElement();
@@ -43,13 +48,7 @@ public class EmployeeServlet extends HttpServlet {
 
         try {
 
-            Enumeration<String> attributeNames = req.getParameterNames();
-
-            if (attributeNames == null || attributeNames.nextElement() == null) {
-                resp.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED, "Unknown passed method");
-                return;
-
-            }
+           checkParametersIntegrity(req);
 
             String actionKey = (String) req.getParameter("action");
 
@@ -59,13 +58,21 @@ public class EmployeeServlet extends HttpServlet {
                     getallemp.execute(req, resp);
 
                     break;
+                case "login":
+                    LoginAction loginAction = new LoginAction();
+                    loginAction.execute(req, resp);
+                    break;
                 default:
                     resp.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED, "Unknown passed method");
 
                     break;
             }
 
-        } catch (Exception e) {
+        }catch(NoSuchElementException e){
+            resp.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Method not found");
+
+        } 
+        catch (Exception e) {
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Employee data unavailable");
 
             e.printStackTrace();

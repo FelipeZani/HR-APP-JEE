@@ -28,7 +28,7 @@ public class Post {
     @Column(name = "wage", nullable = false)
     double wage;
     
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<Employee>employeeSet = new HashSet<Employee>();
 
     public int getPostId() {

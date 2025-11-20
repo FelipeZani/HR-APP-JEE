@@ -16,16 +16,19 @@ public class ModifyEmployeeAction extends EmployeesAction {
             String employeeId = request.getParameter("id");
             String name = request.getParameter("name");
             String lastname = request.getParameter("lastname");
-
             String rank = request.getParameter("rank");
             String password = request.getParameter("newPassword");
+            String postLabel = request.getParameter("post");
 
+
+        
+          
             String newName = "";
             String newLastName = "";
-            String newRank = "";
+            Employee.Rank newRank = null;
             String newPassword = "";
-            System.out.println(employeeId);
-
+            String newPostLabel ="";
+            
             Employee oldEmp = EmployeesAction.dao.getEmployeeById(employeeId);
 
             if (oldEmp == null) {
@@ -36,48 +39,53 @@ public class ModifyEmployeeAction extends EmployeesAction {
 
             }
 
-            if (name != null && !name.isEmpty()) {
-                newName += name;
-            } else {
-                newName += oldEmp.getName();
+            if (name !=null && !name.isBlank()) {
+                newName = name;
+                oldEmp.setName(newName);
             }
 
-            if (lastname != null && !lastname.isEmpty()) {
-                newLastName += lastname;
-            } else {
-                newLastName += oldEmp.getLastName();
+            if (lastname != null && !lastname.isBlank()) {
+                newLastName = lastname;
+                oldEmp.setLastName(newLastName);
+            } 
+
+            if (Employee.Rank.getRank(rank) != null) {
+                newRank = Employee.Rank.getRank(rank);
+                oldEmp.setRank(newRank);
             }
 
-            if (Rank.getRank(rank) != null) {
-                newRank = Rank.getRank(rank).toString();
-            } else {
-                newRank = oldEmp.getRank();
+            if (password != null && !password.isBlank()) {
+                newPassword = password;
+
             }
 
-            if (password != null && !password.isEmpty()) {
-                newPassword = EmployeesAction.hashString(password);
-            } else {
-                newPassword = oldEmp.getUserAccount().getPassword();
+            if(postLabel!= null && !postLabel.isBlank()){
+                newPostLabel = postLabel;
+                oldEmp.getPost().removeEmployeeFromSet(oldEmp);            
+                
+                oldEmp.setPost(PostsAction.getDao().getPostByLabel(newPostLabel));
+                
+                oldEmp.getPost().addEmployee(oldEmp);
             }
 
-            oldEmp.setName(newName);
-            oldEmp.setLastName(newLastName);
-            oldEmp.setRank(newRank);
+            
             oldEmp.getUserAccount().setPassword(newPassword);
-            oldEmp.getUserAccount().setUsername(newLastName.toLowerCase()+"."+newLastName.toLowerCase());
+            oldEmp.getUserAccount().setUsername(newLastName.toLowerCase() + "." + newLastName.toLowerCase());
 
             EmployeesAction.getDao().updateEmployee(oldEmp);
-
+            System.out.println(oldEmp.getName() + " " + oldEmp.getLastName());
             JsonObject jsonResponse = Json.createObjectBuilder()
                     .add("id", oldEmp.getEmployeeId())
                     .add("name", oldEmp.getName() + " " + oldEmp.getLastName())
-                    .add("rank", oldEmp.getRank())
+                    .add("rank", oldEmp.getRank().toString())
+                    .add("post",oldEmp.getPost().getLabel())
                     .build();
             response.getWriter().write(jsonResponse.toString());
         } catch (Exception e) {
-            e.printStackTrace();
 
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            e.printStackTrace();
+
         }
     }
 

@@ -61,7 +61,6 @@ function getEmployee(employeeId) {
     };
     return selectedEmployee;
 }
-//Implementation not ready
 async function modifyEmployeeRequest(id, modifyEmployeeSubmitButton, modifyEmployeeDialog) {
     const form = document.getElementById("modifyemployee-form");
     if (id === "") {
@@ -91,6 +90,7 @@ async function modifyEmployeeRequest(id, modifyEmployeeSubmitButton, modifyEmplo
         name: formData.get("modifyemployee-name-input"),
         lastname: formData.get("modifyemployee-lastname-input"),
         rank: formData.get("rank"),
+        post: formData.get("modifyEmployee-postList"),
         newPassword: formData.get("modifyemployee-password-input")
     };
     if (!checkFormValuesChanged(modifiedEmployee)) {
@@ -111,6 +111,7 @@ async function modifyEmployeeRequest(id, modifyEmployeeSubmitButton, modifyEmplo
             nameCol.textContent = dataResponse.name;
             rankCol.textContent = dataResponse.rank;
             postCol.textContent = dataResponse.post;
+            console.log(nameCol?.textContent);
         }
     }
     catch (error) {

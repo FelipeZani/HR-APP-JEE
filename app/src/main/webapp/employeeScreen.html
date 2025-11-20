@@ -67,11 +67,11 @@
                     </label>
 
                     <label for="name"> Name:
-                        <input type="text" name="name" pattern="[A-ZÀ-Ï][a-zà-ï]+">
+                        <input type="text" name="name" pattern="[A-Z][a-z]+">
                     </label>
 
                     <label for="lastname"> LastName:
-                        <input type="text" name="lastname" pattern="[A-ZÀ-Ï][a-zà-ï]+">
+                        <input type="text" name="lastname" pattern="[A-Z][a-z]+">
                     </label>
 
 
@@ -97,8 +97,8 @@
                 <form class="form-dialog" id="newemployee-form">
 
                     <!--Minimum pattern just to ensure only allowed characters will be transmited to the Backend  -->
-                    <label>Name: <input type="text" name="name" pattern="[A-ZÀ-Ï][a-zà-ï]+" required></label>
-                    <label>Last name: <input type="text" name="lastname" pattern="[A-ZÀ-Ï][a-zà-ï]+" required></label>
+                    <label>Name: <input type="text" name="name" pattern="[A-Z][a-z]+" required></label>
+                    <label>Last name: <input type="text" name="lastname" pattern="[A-Z][a-z]+" required></label>
                     <input type="hidden" name="action" value="addemployee">
                     <select required name="rank">
                         <option value="" disabled selected>Select rank</option>
@@ -145,9 +145,9 @@
                 <form class="form-dialog" id="modifyemployee-form">
                     <input type="hidden" name="action" value="modifyemployee">
                     <label>Name: <input type="text" id="name-input" name="modifyemployee-name-input"
-                            pattern="[A-ZÀ-Ï][a-zà-ï]+"></label>
+                            pattern="[A-Z][a-z]+"></label>
                     <label>Lastname: <input type="text" id="lastname-input" name="modifyemployee-lastname-input"
-                            pattern="[A-ZÀ-Ï][a-zà-ï]+"></label>
+                            pattern="[A-Z][a-z]+"></label>
                     <div id="password-togglestyle-div">
                         <label>Password: <input type="password" id="password-input" name="modifyemployee-password-input"
                                 pattern="[\w\sÀ-Ïà-ï%°#&^*$@]{4,}">
@@ -165,7 +165,7 @@
 
                     </select>
                     <div class="dialog-form-buttonWrapper">
-                        <input type="button" value="button" id="modifyemployee-form-submitBtn">
+                        <input type="button" value="submit" id="modifyemployee-form-submitBtn">
                         <input type="button" value="close" id="modifyemployee-closeButton">
 
                     </div>

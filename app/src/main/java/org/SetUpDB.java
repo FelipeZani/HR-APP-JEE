@@ -33,7 +33,7 @@ public class SetUpDB implements ServletContextListener {
 
             employee.setName("Felipe");
             employee.setLastName("ZANI");
-            employee.setRank("JUNIOR");
+            employee.setRank(Employee.Rank.JUNIOR);
             employee.setEmployementDate("03-05-2025");
 
             PayStub payStub = new PayStub();
@@ -100,10 +100,14 @@ public class SetUpDB implements ServletContextListener {
             employeeProject.setProject(project);
             employeeProject.setAssignmentDate("01-02-2002");
 
+            employee.addPermission(Employee.Permissions.PROJECTMANAGER);
+            employee.addPermission(Employee.Permissions.DEPARTMENTMANAGER);
+            employee.addPermission(Employee.Permissions.HR);
+
             employee.addEmployeeProjects(employeeProject);
             project.addEmployeeProjects(employeeProject);
 
-            empDao.updateEmployee(employee);;
+            empDao.updateEmployee(employee);
 
         }
     }

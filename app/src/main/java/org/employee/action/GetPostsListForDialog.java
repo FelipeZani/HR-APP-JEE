@@ -12,6 +12,7 @@ public class GetPostsListForDialog extends PostsAction {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
         try {
+
             
             String responseHTML ="<option value=\"\" selected disabled>Select post</option>";
 

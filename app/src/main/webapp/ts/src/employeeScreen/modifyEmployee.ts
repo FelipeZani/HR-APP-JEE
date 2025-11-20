@@ -103,7 +103,6 @@ function getEmployee(employeeId: string) {
 }
 
 
-//Implementation not ready
 async function modifyEmployeeRequest(id: string, modifyEmployeeSubmitButton: HTMLButtonElement, modifyEmployeeDialog: HTMLDialogElement) {
 
 
@@ -142,6 +141,7 @@ async function modifyEmployeeRequest(id: string, modifyEmployeeSubmitButton: HTM
         name: formData.get("modifyemployee-name-input") as string,
         lastname: formData.get("modifyemployee-lastname-input") as string,
         rank: formData.get("rank") as string,
+        post:formData.get("modifyEmployee-postList") as string,
         newPassword: formData.get("modifyemployee-password-input") as string
 
     }
@@ -172,6 +172,7 @@ async function modifyEmployeeRequest(id: string, modifyEmployeeSubmitButton: HTM
             nameCol!!.textContent = dataResponse.name;
             rankCol!!.textContent = dataResponse.rank;
             postCol!!.textContent = dataResponse.post;
+            console.log(nameCol?.textContent);
         }
     } catch (error) {
         console.error(error);
