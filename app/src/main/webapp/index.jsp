@@ -18,6 +18,8 @@
 <body>
 
     <button onclick="location.href='http:\/\/localhost:8080/app/employeeScreen.html'">EmployeePage</button>
+    <button onclick="location.href='http:\/\/localhost:8080/app/departments.html'">DepartmentsPage</button>
+    <button onclick="location.href='http:\/\/localhost:8080/app/projectScreen.html'">ProjectsPage</button>
     <input type="text">
 </body>
 </html>

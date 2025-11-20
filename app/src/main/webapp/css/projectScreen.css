@@ -1,0 +1,154 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    background: #ffffff;
+    color: #000000;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+main { 
+    padding: 20px; 
+}
+
+.styled-dialog {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    min-width: 400px;
+}
+
+.form-dialog {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.form-dialog label {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.form-dialog input, .form-dialog select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.form-dialog button, #dialog-form-buttonWrapper input, #tools-wrapper button {
+    padding: 8px 16px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.form-dialog button:hover, #dialog-form-buttonWrapper input:hover, #tools-wrapper button:hover {
+    background: #0056b3;
+}
+
+#tools-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.project-row {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    background: #f9f9f9;
+}
+
+.project-row strong {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.project-row button {
+    margin-right: 10px;
+    padding: 5px 10px;
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.project-row button:hover {
+    background: #218838;
+}
+
+.project-delete-btn {
+    background: #dc3545 !important;
+}
+
+.project-delete-btn:hover {
+    background: #c82333 !important;
+}
+
+.project-assign-btn {
+    background: #28a745 !important;
+}
+
+.project-assign-btn:hover {
+    background: #218838 !important;
+}
+
+.project-modify-btn {
+    background: #007bff !important;
+}
+
+.project-modify-btn:hover {
+    background: #0056b3 !important;
+}
+
+.project-members-btn {
+    background: #17a2b8 !important;
+}
+
+.project-members-btn:hover {
+    background: #138496 !important;
+}
+
+#dialog-form-buttonWrapper {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.dialog-form-closeButton {
+    background: #6c757d !important;
+}
+
+.dialog-form-closeButton:hover {
+    background: #5a6268 !important;
+}
+
+#members-dialog-content {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.project-status-on {
+    color: #ff9800;
+    font-weight: bold;
+}
+
+.project-status-on-going {
+    color: #ff9800;
+    font-weight: bold;
+}
+
+.project-status-accomplished {
+    color: #28a745;
+    font-weight: bold;
+}
+
+.project-status-cancelled {
+    color: #dc3545;
+    font-weight: bold;
+}

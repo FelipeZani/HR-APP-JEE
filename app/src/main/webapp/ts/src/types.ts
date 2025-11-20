@@ -11,3 +11,13 @@ export interface NewlyCreatedEmployeeType extends EmployeeDataType {
     password: string,
     username: string
 }
+
+export interface DepartmentDataType {
+    id: string,
+    name: string,
+    manager: string
+}
+
+export interface NewlyCreatedDepartmentType extends DepartmentDataType {
+    createdAt?: string
+}

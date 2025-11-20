@@ -11,6 +11,6 @@ setupUser.sh
 build/
 resources
 test/
-
+node_modules/
 
 !gradle-wrapper.jar
