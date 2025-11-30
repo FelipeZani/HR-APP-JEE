@@ -53,3 +53,16 @@ dialogrelatedId.forEach((dialogId) => {
 
 
 
+
+// --- Gestion du bouton Dashboard ---
+const dashboardBtn = document.getElementById('dashboard-btn') as HTMLButtonElement;
+
+if (dashboardBtn) {
+    dashboardBtn.addEventListener('click', (e: Event) => {
+        e.preventDefault(); // Empêche le rechargement de page si c'est dans un form
+        // Ouvre le servlet de génération PDF avec le paramètre type=dashboard
+        window.open('report/employees?type=dashboard', '_blank');
+    });
+} else {
+    console.log("Bouton Dashboard introuvable (vérifie l'ID dans le HTML)");
+}

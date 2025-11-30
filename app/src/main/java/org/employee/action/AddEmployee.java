@@ -115,7 +115,9 @@ public class AddEmployee extends EmployeesAction {
 
             newAccount.setEmployee(employee);
             newAccount.setFirstConnexion(true);
-
+            
+            // newAccount.setPassword("password123");
+            
             if (!employeeList.isEmpty()) { //if there is already other users with the same name/lname the fomat of the username will be name.lastnameNbOfExistingUsers
 
                 newAccount.setUsername(

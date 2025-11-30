@@ -33,6 +33,7 @@ public class GetAllEmployees extends EmployeesAction {
                         "<div class=\'rank\'>" + employee.getRank() + "</div>" +
                         
                         "<div>"+
+                            "<a href='report/employees?id="+employee.getEmployeeId()+"' target='_blank' title='Générer PDF' style='margin-left:5px; text-decoration:none;'>📄</a>"+
                             "<button class=\'modifyemployee-opendialogbutton\' onclick=\"modifyEmployee(\'"+employee.getEmployeeId()+"\')\">modify</button>"+
                             "<button onclick=\"removeEmployee(\'" + employee.getEmployeeId() + "\')\">remove</button>" +
                         "</div>" +

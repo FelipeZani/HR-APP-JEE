@@ -8,13 +8,13 @@
 - [x] Rechercher un employé par nom, prénom, matricule ou département
 - [x] Ajouter un post
 - [ ] Permissions
-- [ ]Sessions
+- [ ] Sessions
 
 ## Département
 - [ ] Ajouter un département
 - [ ] Lister les départements
-- [ ]Affecter un employé à un département
-- [ ]Visualiser les membres d’un département
+- [ ] Affecter un employé à un département
+- [ ] Visualiser les membres d’un département
 
 ## Projet
 - [ ] Créer, modifier, supprimer un projet
@@ -27,8 +27,8 @@
 - [ ] Créer une fiche de paie pour un employé pour un mois donné
 - [ ] Calcul automatique du net à payer : net = salaire de base + primes – déductions
 - [ ] Consulter les fiches de paie d’un employé
-- [ ]Générer une fiche de paie imprimable
-- [ ]Rechercher les fiches par période ou par employé
+- [ ] Générer une fiche de paie imprimable
+- [ ] Rechercher les fiches par période ou par employé
 
 ## Rapports
-- [ ]Créer des rapports sous format pdf avec des graphiques random 
+- [ ] Créer des rapports sous format pdf avec des graphiques random 

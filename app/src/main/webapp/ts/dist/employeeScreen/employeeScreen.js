@@ -32,3 +32,15 @@ dialogrelatedId.forEach((dialogId) => {
         console.log("HTML Element not found : " + dialogElement + " " + formDialog + " " + closeDialogButton);
     }
 });
+// --- Gestion du bouton Dashboard ---
+const dashboardBtn = document.getElementById('dashboard-btn');
+if (dashboardBtn) {
+    dashboardBtn.addEventListener('click', (e) => {
+        e.preventDefault(); // Empêche le rechargement de page si c'est dans un form
+        // Ouvre le servlet de génération PDF avec le paramètre type=dashboard
+        window.open('report/employees?type=dashboard', '_blank');
+    });
+}
+else {
+    console.log("Bouton Dashboard introuvable (vérifie l'ID dans le HTML)");
+}
