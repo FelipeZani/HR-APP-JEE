@@ -19,6 +19,7 @@
     <script type="module" src="./ts/dist/employeeScreen/newEmployee.js" defer></script>
     <script type="module" src="./ts/dist/employeeScreen/removeEmployee.js" defer></script>
     <script type="module" src="./ts/dist/employeeScreen/modifyEmployee.js" defer></script>
+    <script type="module" src="./ts/dist/employeeScreen/paystub.js" defer></script>
 
     <!-- Using HTTP requests only when it's necessary to append dynamic content directly from the database into the DOM -->
     <!-- HTTP requests are sent to a central endpoint and only the redirected to their respective destinations, we are using hidden inputs as filters -->
@@ -146,6 +147,26 @@
         </div>
 
         <div id="employees-table">
+
+            <dialog class="styled-dialog" id="paystub-dialog">
+                <form class="form-dialog" id="paystub-form" target="_blank" action="report/employees" method="GET">
+                    <h3>Générer Fiche de Paie</h3>
+                    
+                    <input type="hidden" name="type" value="paystub">
+                    <input type="hidden" name="id" id="paystub-employee-id">
+                    
+                    <label>Sélectionner le mois :
+                        <input type="month" name="period" id="paystub-period" required>
+                    </label>
+                    
+                    <p id="paystub-error" style="color: red; font-size: 0.9em; display: none;"></p>
+
+                    <div class="dialog-form-buttonWrapper">
+                        <input type="submit" value="Générer PDF" id="paystub-submitBtn">
+                        <input type="button" value="Fermer" class="dialog-form-closeButton" id="paystub-closeButton">
+                    </div>
+                </form>
+            </dialog>
 
             <dialog class="styled-dialog" id="modifyemployee-dialog">
                 <form class="form-dialog" id="modifyemployee-form">

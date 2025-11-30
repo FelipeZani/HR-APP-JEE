@@ -20,7 +20,15 @@ openDialogButtonIds.forEach((dialogId) => {
 });
 
 
-const dialogrelatedId: ReadonlyArray<string> = Array.of("searchemployee", "newemployee", "modifyemployee", "removeemployee", "newlycreatedemployee","newpost");
+const dialogrelatedId: ReadonlyArray<string> = Array.of(
+    "searchemployee", 
+    "newemployee", 
+    "modifyemployee", 
+    "removeemployee", 
+    "newlycreatedemployee",
+    "newpost",
+    "paystub"
+);
 
 
 dialogrelatedId.forEach((dialogId) => {

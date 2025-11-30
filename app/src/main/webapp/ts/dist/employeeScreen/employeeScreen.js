@@ -12,7 +12,7 @@ openDialogButtonIds.forEach((dialogId) => {
         console.log("OpenDialogButton not found: " + openDialogButton);
     }
 });
-const dialogrelatedId = Array.of("searchemployee", "newemployee", "modifyemployee", "removeemployee", "newlycreatedemployee", "newpost");
+const dialogrelatedId = Array.of("searchemployee", "newemployee", "modifyemployee", "removeemployee", "newlycreatedemployee", "newpost", "paystub");
 dialogrelatedId.forEach((dialogId) => {
     const closeDialogButton = document.getElementById(`${dialogId}-closeButton`);
     const dialogElement = document.getElementById(`${dialogId}-dialog`);

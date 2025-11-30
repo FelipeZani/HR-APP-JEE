@@ -2,6 +2,7 @@ package org.employee.servlet;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +24,7 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.JRDataSource;
 
 import org.employee.dea.EmployeeDAO;
 import org.employee.model.ChartData;
@@ -45,7 +47,8 @@ public class ReportServlet extends HttpServlet {
             
             // On prépare ces variables maintenant pour pouvoir les utiliser dans les if/else
             Map<String, Object> parameters = new HashMap<>();
-            JRBeanCollectionDataSource dataSource; 
+            // JRBeanCollectionDataSource dataSource; 
+            net.sf.jasperreports.engine.JRDataSource dataSource;
 
             if ("dashboard".equals(typeParam)) {
                 // === CAS 0 : DASHBOARD ===
@@ -92,7 +95,53 @@ public class ReportServlet extends HttpServlet {
                 templateFile = "/dashboard.jrxml";
                 outputFilename = "Dashboard_RH.pdf";
 
-            } else {
+            } else if ("paystub".equals(typeParam)) {
+                // === CAS : FICHE DE PAIE ===
+                
+                String period = request.getParameter("period"); // Format YYYY-MM
+                Employee emp = employeeDAO.getEmployeeById(idParam);
+                
+                if (emp != null) {
+                    // --- CALCULS ---
+                    float hourlyWage = (float) emp.getPost().getWage();
+                    float baseSalary = hourlyWage * 35 * 4;
+                    
+                    float bonus = 0;
+                    switch (emp.getRank()) {
+                        case JUNIOR: bonus = 100f; break;
+                        case MIDLEVEL: bonus = 200f; break;
+                        case SENIOR: bonus = 300f; break;
+                        default: bonus = 0f;
+                    }
+
+                    float grossSalary = baseSalary + bonus;
+                    // Formule inventée pour déduction (ex: 22%)
+                    float deductions = grossSalary * 0.22f;
+                    float netPay = grossSalary - deductions;
+
+                    // --- FORMATAGE ---
+                    DecimalFormat df = new DecimalFormat("0.00");
+
+                    parameters.put("EmployeeName", emp.getName() + " " + emp.getLastName());
+                    parameters.put("Matricule", "EMP-" + emp.getEmployeeId()); // Matricule fictif
+                    parameters.put("Period", period); // Tu peux reformater ça si tu veux (ex: Juin 2025)
+                    
+                    parameters.put("BaseSalary", df.format(baseSalary));
+                    parameters.put("Bonus", df.format(bonus));
+                    parameters.put("Deductions", df.format(deductions));
+                    parameters.put("NetPay", df.format(netPay));
+
+                    // Source de données vide car tout est passé en paramètres
+                    dataSource = new net.sf.jasperreports.engine.JREmptyDataSource(1);
+                    
+                    templateFile = "/paystub.jrxml";
+                    outputFilename = "Fiche_Paie_" + emp.getLastName() + "_" + period + ".pdf";
+                } else {
+                    response.getWriter().println("Employé introuvable");
+                    return;
+                }
+
+            }else {
                 // === CAS 1 & 2 : LISTE OU FICHE EMPLOYÉ ===
                 List<Employee> data;
                 

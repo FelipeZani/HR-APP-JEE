@@ -34,6 +34,9 @@ public class GetAllEmployees extends EmployeesAction {
                         
                         "<div>"+
                             "<a href='report/employees?id="+employee.getEmployeeId()+"' target='_blank' title='Générer PDF' style='margin-left:5px; text-decoration:none;'>📄</a>"+
+                            "<button class='paystub-btn' style='margin: 0 5px; cursor:pointer;' " +
+                            "onclick=\"openPayStubDialog('" + employee.getEmployeeId() + "', '" + employee.getEmployementDate() + "')\">" +
+                            "💰 Fiche de Paie</button>" +
                             "<button class=\'modifyemployee-opendialogbutton\' onclick=\"modifyEmployee(\'"+employee.getEmployeeId()+"\')\">modify</button>"+
                             "<button onclick=\"removeEmployee(\'" + employee.getEmployeeId() + "\')\">remove</button>" +
                         "</div>" +
